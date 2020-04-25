@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from django.contrib.auth.hashers import make_password
 
 from .models import *
 from .serializers import *
@@ -22,7 +23,7 @@ class UserViewSet(ModelViewSet):
             name=request.data['name'],
             username=request.data['content'],
             email=request.data['user'],
-            password=request.data['password'],
+            password=make_password(request.data['password']),
             description=request.data['description'],
             profile_photo=request.data['profile_photo'],
             banner_photo=request.data['banner_photo'],

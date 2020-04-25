@@ -20,16 +20,17 @@ from django.urls import path, include
 from rest_framework import routers
 from redes_backend.views import *
 from rrss_backend import settings
+from rest_framework_jwt.views import obtain_jwt_token
 
 router = routers.DefaultRouter()
-router.register(r'posts',PostViewSet)
-router.register(r'comments',CommentViewSet)
-router.register(r'users',UserViewSet)
-router.register(r'friends',FriendViewSet)
+router.register(r'posts', PostViewSet)
+router.register(r'comments', CommentViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'friends', FriendViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('',include(router.urls)),
-    path('posts/<int:id>/', PostViewSet.as_view({'get' : 'get_user_post'}),name = 'get_user_post'),
-] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
-
+                  path('admin/', admin.site.urls),
+                  path('', include(router.urls)),
+                  path('auth/', obtain_jwt_token),
+                  path('posts/<int:id>/', PostViewSet.as_view({'get': 'get_user_post'}), name='get_user_post'),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

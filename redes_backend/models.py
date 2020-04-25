@@ -1,4 +1,6 @@
 from django.db import models
+
+
 # Create your models here.
 
 class User(models.Model):
@@ -6,42 +8,47 @@ class User(models.Model):
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
-    description = models.CharField(max_length=100,blank=True)
-    profile_photo = models.ImageField(upload_to='photos/',blank=True)
-    banner_photo = models.ImageField(upload_to= 'photos/',blank=True)
+    description = models.CharField(max_length=100, blank=True)
+    profile_photo = models.ImageField(upload_to='photos/', blank=True)
+    banner_photo = models.ImageField(upload_to='photos/', blank=True)
     youtube = models.CharField(max_length=100, blank=True)
     instagram = models.CharField(max_length=100, blank=True)
     twitter = models.CharField(max_length=100, blank=True)
+
+
     def __str__(self):
-            return f'{self.username}: {self.password},{self.email},{self.name},{self.description},{self.profile_photo},{self.banner_photo}'
+        return f'{self.username}: {self.password},{self.email},{self.name},{self.description},{self.profile_photo},{self.banner_photo}'
 
 
 class Post(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     content = models.TextField()
     image = models.ImageField(blank=True)
     date = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
+
     def __str__(self):
         return f'{self.user}: {self.title},{self.content},{self.image},{self.date},{self.likes}'
 
+
 class Comment(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
-    post = models.ForeignKey(Post,on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
     def __str__(self):
         return f'{self.user}:{self.content},{self.date},{self.likes}'
 
 
 class Friend(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    friends = models.ManyToManyField(User,related_name='friends',blank=True)
-    sent_requests = models.ManyToManyField(User,related_name='sent',blank=True)
-    received_requests = models.ManyToManyField(User,related_name='received',blank=True)
+    friends = models.ManyToManyField(User, related_name='friends', blank=True)
+    sent_requests = models.ManyToManyField(User, related_name='sent', blank=True)
+    received_requests = models.ManyToManyField(User, related_name='received', blank=True)
+
     def __str__(self):
         return f'{self.user}:{self.friends},{self.sent_requests},{self.received_requests}'
-#FALTA AMIGOS QUE NO SE COMO HACERLO TODAVIA
-
+# FALTA AMIGOS QUE NO SE COMO HACERLO TODAVIA
