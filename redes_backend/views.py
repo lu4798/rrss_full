@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 from rest_framework import viewsets
+from rest_framework.response import Response
 
 from .serializers import SocialSerializer,CommentSerializer,PostSerializer,UserSerializer,FriendSerializer
 from .models import *
@@ -18,6 +20,9 @@ class CommentViewSet(viewsets.ModelViewSet):
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+    def get_user_post(self,request,*args,**kwargs):
+        print(request)
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
