@@ -1,6 +1,6 @@
 from rest_framework.serializers import HyperlinkedModelSerializer
 from rest_framework import serializers
-from .models import Social,User,Post,Comment,Friend
+from .models import *
 
 
 class UserSerializer(HyperlinkedModelSerializer):
@@ -8,14 +8,7 @@ class UserSerializer(HyperlinkedModelSerializer):
     banner_photo = serializers.ImageField()
     class Meta:
         model = User
-        fields = ['username','name','description','banner_photo','profile_photo']
-
-
-class SocialSerializer(HyperlinkedModelSerializer):
-    user = UserSerializer()
-    class Meta:
-        model = Social
-        fields = ['user','youtube','instagram','twitter']
+        fields = ['username','password','name','description','banner_photo','profile_photo','youtube','instagram','twitter']
 
 class PostSerializer(HyperlinkedModelSerializer):
     user = UserSerializer()
