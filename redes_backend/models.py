@@ -14,10 +14,10 @@ class User(models.Model):
     youtube = models.CharField(max_length=100, blank=True)
     instagram = models.CharField(max_length=100, blank=True)
     twitter = models.CharField(max_length=100, blank=True)
-
+    token = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return f'{self.username}: {self.password},{self.email},{self.name},{self.description},{self.profile_photo},{self.banner_photo}'
+        return f'{self.username}: {self.password},{self.email},{self.name},{self.description},{self.profile_photo},{self.banner_photo}, {self.token}'
 
 
 class Post(models.Model):

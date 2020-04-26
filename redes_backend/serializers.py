@@ -15,7 +15,7 @@ class UserSerializer(HyperlinkedModelSerializer):
             'password': forms.PasswordInput(),
         }
         fields = ['username', 'password', 'name', 'description', 'banner_photo', 'profile_photo', 'youtube',
-                  'instagram', 'twitter']
+                  'instagram', 'twitter', 'token']
 
 
 class PostSerializer(HyperlinkedModelSerializer):

@@ -29,6 +29,11 @@ class UserViewSet(ModelViewSet):
             banner_photo=request.data['banner_photo'],
         )
         serialized_data = self.get_serializer(u).data
+
+        if serialized_data.is_valid():
+            serialized_data.save()
+        #    return Response(serializer.data, status=status.HTTP_201_CREATED)
+        #return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return HttpResponse(serialized_data)
     def retrieve(self, request, *args, **kwargs):
         serializer = UserSerializer(request.user)
