@@ -16,7 +16,6 @@ from .models import *
 from rest_framework_jwt.settings import api_settings
 from rest_framework import serializers
 
-
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -26,22 +25,22 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request)
+        print(request.data['user'])
         p = Post.objects.create(
             title=request.data['title'],
             content=request.data['content'],
             image=request.data['image'],
-            user=User.objects.first()
+            user=User.objects.filter(username=request.data['user'])[0]
         )
         print(p.image)
         serialized_data = self.get_serializer(p).data
         return HttpResponse(serialized_data)
 
     def get_queryset(self):
-        user_id = self.request.query_params.get('user', None)
-        print(user_id)
-        if user_id:
-            return Post.objects.filter(user__id=user_id)
+        username = self.request.query_params.get('user', None)
+        print(username)
+        if username:
+            return Post.objects.filter(user__username=username)
         else:
             return Post.objects.all()
 
@@ -70,7 +69,7 @@ class UserViewSet(viewsets.ModelViewSet):
         u = User.objects.create(
             username=request.data['username'],
             password=make_password(request.data['password']),
-            name=request.data['name'],
+            name=request.data['name']
         )
         serialized_data = self.get_serializer(u).data
         print(serialized_data)
@@ -83,8 +82,23 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = UserSerializer(request.user)
         return HttpResponse(serializer.data)
 
+
+    def put(self, request):
+        print(request.data)
+        user_id = self.request.query_params.get('user', None)
+        u = User.objects.filter(username=user_id).update(
+            name=request.data['name'],
+            description = request.data['description'],
+            youtube = request.data['yt'],
+            instagram = request.data['insta'],
+            twitter = request.data['twitter'],
+            banner_photo = request.data['banner_photo'],
+        )
+        return Response({"http_method": "PUT"})
+
     def get_queryset(self):
         user_id = self.request.query_params.get('user', None)
+        print(user_id)
         if user_id:
             return User.objects.filter(username=user_id)
         else:
