@@ -3,7 +3,9 @@ from os import link
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-
+import os
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 # Create your views here.
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
@@ -25,7 +27,7 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data['user'])
+        print(request.data)
         p = Post.objects.create(
             title=request.data['title'],
             content=request.data['content'],
@@ -64,6 +66,13 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = (AllowAny, )
 
+    '''def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)'''
+
     def create(self, request, *args, **kwargs):
         print(request.data)
         u = User.objects.create(
@@ -71,12 +80,11 @@ class UserViewSet(viewsets.ModelViewSet):
             password=make_password(request.data['password']),
             name=request.data['name']
         )
-        serialized_data = self.get_serializer(u).data
+
+        serialized_data = self.get_serializer(u)
         print(serialized_data)
-        if self.get_serializer(data=u).is_valid():
-            serialized_data.save()
-            print("hola")
-        return HttpResponse(serialized_data)
+        return Response(serialized_data.data,status=status.HTTP_201_CREATED)
+
 
     def retrieve(self, request, *args, **kwargs):
         serializer = UserSerializer(request.user)
@@ -94,6 +102,8 @@ class UserViewSet(viewsets.ModelViewSet):
             twitter = request.data['twitter'],
             banner_photo = request.data['banner_photo'],
         )
+        file = request.FILES['banner_photo']
+        path = default_storage.save(str(file), ContentFile(file.read()))
         return Response({"http_method": "PUT"})
 
     def get_queryset(self):

@@ -5,10 +5,23 @@ from .models import *
 from rest_framework_jwt.settings import api_settings
 
 
-class UserSerializer(HyperlinkedModelSerializer):
-    profile_photo = serializers.ImageField()
-    banner_photo = serializers.ImageField()
+class UserTokenSerializer(HyperlinkedModelSerializer):
     token = serializers.SerializerMethodField()
+    class Meta:
+        model = User
+        fields = ['username','token']
+    def get_token(self, obj):
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+        payload = jwt_payload_handler(obj)
+        token = jwt_encode_handler(payload)
+        return token
+
+class UserSerializer(HyperlinkedModelSerializer):
+    '''profile_photo = serializers.ImageField()
+    banner_photo = serializers.ImageField()'''
+    token = serializers.SerializerMethodField()
+
 
     class Meta:
         model = User
@@ -16,7 +29,7 @@ class UserSerializer(HyperlinkedModelSerializer):
             'password': forms.PasswordInput(),
         }
         fields = ['username', 'password', 'name', 'description', 'banner_photo', 'profile_photo', 'youtube',
-                  'instagram', 'twitter', 'token']
+                  'instagram', 'twitter','token']
 
     def get_token(self, obj):
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
