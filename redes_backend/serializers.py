@@ -17,11 +17,20 @@ class UserTokenSerializer(HyperlinkedModelSerializer):
         token = jwt_encode_handler(payload)
         return token
 
+
+
+class FriendSerializer(HyperlinkedModelSerializer):
+    user_photo = serializers.ImageField()
+    class Meta:
+        model = Friend
+        fields = ['userr', 'friendship','user_photo']
+
+
 class UserSerializer(HyperlinkedModelSerializer):
     '''profile_photo = serializers.ImageField()
     banner_photo = serializers.ImageField()'''
     token = serializers.SerializerMethodField()
-
+    friends = FriendSerializer(many=True)
 
     class Meta:
         model = User
@@ -29,7 +38,7 @@ class UserSerializer(HyperlinkedModelSerializer):
             'password': forms.PasswordInput(),
         }
         fields = ['username', 'password', 'name', 'description', 'banner_photo', 'profile_photo', 'youtube',
-                  'instagram', 'twitter','token']
+                  'instagram', 'twitter','token','friends']
 
     def get_token(self, obj):
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -61,12 +70,4 @@ class CommentSerializer(HyperlinkedModelSerializer):
         fields = ['user', 'date', 'content', 'likes', 'post']
 
 
-class FriendSerializer(HyperlinkedModelSerializer):
-    user = UserSerializer()
-    friends = UserSerializer(many=True)
-    sent_requests = UserSerializer(many=True)
-    received_requests = UserSerializer(many=True)
 
-    class Meta:
-        model = Friend
-        fields = ['user', 'friends', 'sent_requests', 'received_requests']

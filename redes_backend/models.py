@@ -3,8 +3,16 @@ from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
+class Friend(models.Model):
+    userr = models.CharField(max_length=100,blank=True)
+    friendship = models.BooleanField(default=False)
+    user_photo = models.ImageField(upload_to='media',default="default_profile.png")
+
+    def __str__(self):
+        return f'{self.userr}:{self.friendship}'
 
 class User(AbstractUser):
+
     #username = models.CharField(max_length=100)
     email = models.CharField(max_length=100, blank=True)
     password = models.CharField(max_length=100)
@@ -15,9 +23,10 @@ class User(AbstractUser):
     youtube = models.CharField(max_length=100, blank=True)
     instagram = models.CharField(max_length=100, blank=True)
     twitter = models.CharField(max_length=100, blank=True)
-
+    friends = models.ManyToManyField(Friend,null=True)
     def __str__(self):
-        return f'{self.username}: {self.password},{self.email},{self.name},{self.description},{self.profile_photo},{self.banner_photo}'
+        return f'{self.username}: {self.password},{self.email},{self.name},{self.description},{self.profile_photo},{self.banner_photo},{self.friends}'
+
 
 
 class Post(models.Model):
@@ -43,12 +52,5 @@ class Comment(models.Model):
         return f'{self.user}:{self.content},{self.date},{self.likes}'
 
 
-class Friend(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    friends = models.ManyToManyField(User, related_name='friends', blank=True)
-    sent_requests = models.ManyToManyField(User, related_name='sent', blank=True)
-    received_requests = models.ManyToManyField(User, related_name='received', blank=True)
 
-    def __str__(self):
-        return f'{self.user}:{self.friends},{self.sent_requests},{self.received_requests}'
 # FALTA AMIGOS QUE NO SE COMO HACERLO TODAVIA
