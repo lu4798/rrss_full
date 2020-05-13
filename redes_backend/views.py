@@ -74,9 +74,9 @@ class PostViewSet(viewsets.ModelViewSet):
         username = self.request.query_params.get('user', None)
         print(username)
         if username:
-            return Post.objects.filter(user__username=username)
+            return Post.objects.filter(user__username=username).order_by('-date')
         else:
-            return Post.objects.all()
+            return Post.objects.all().order_by('-date')
 
     def destroy(self, request, *args, **kwargs):
         url = request.build_absolute_uri()
@@ -92,6 +92,37 @@ class PostViewSet(viewsets.ModelViewSet):
         except Post.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+class FriendViewSet(viewsets.ModelViewSet):
+    queryset = Friend.objects.all()
+    serializer_class = FriendSerializer
+
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        f = Friend.objects.create(
+            userr=request.data['user'],
+            user_photo=request.data['image'],
+            friendship=request.data['friendship'],
+        )
+
+        serialized_data = self.get_serializer(f).data
+        return HttpResponse(serialized_data)
+    # queryset = Post.objects.all()
+    # queryset = queryset.order_by('-date')
+    '''def retrieve(self, request, *args, **kwargs):
+        query = self.get_queryset()
+        user = kwargs['pk']
+        for post in query:
+            if post.user.username == user:
+                return Response(self.get_serializer(post).data)'''
+
+    # Falta ver como filtrar directamente de bbdd
+    # @action(methods=['get'], detail=True)
+    # def get_user_post(self, request, *args, **kwargs, ):
+    #    query = self.get_queryset()
+    #    id = kwargs['id']
+    #    for post in query:
+    #        if post.user.id == id:
+    #            return Response(self.get_serializer(post).data)
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -112,28 +143,81 @@ class UserViewSet(viewsets.ModelViewSet):
             password=make_password(request.data['password']),
             name=request.data['name']
         )
+        print("COMPLETE_USER",u)
+
 
         serialized_data = self.get_serializer(u)
-        print(serialized_data)
+        print(serialized_data.data)
+        f = Friend.objects.create(
+            userr=serialized_data.data['username'],
+            user_photo=serialized_data.data['profile_photo'].split('/')[-1],
+            friendship=False
+        )
+        f = Friend.objects.create(
+            userr=serialized_data.data['username'],
+            user_photo=serialized_data.data['profile_photo'].split('/')[-1],
+            friendship=True
+        )
         return Response(serialized_data.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, *args, **kwargs):
         serializer = UserSerializer(request.user)
         return HttpResponse(serializer.data)
 
+    #Cambiarlo para que sea un poquito mas seguro
     def put(self, request):
-        print(request.data)
+        print("DATOS",request.data['friend'])
+
+        print(self.request.query_params)
         user_id = self.request.query_params.get('user', None)
-        u = User.objects.filter(username=user_id).update(
-            name=request.data['name'],
-            description=request.data['description'],
-            youtube=request.data['yt'],
-            instagram=request.data['insta'],
-            twitter=request.data['twitter'],
-            banner_photo=request.data['banner_photo'],
-        )
-        file = request.FILES['banner_photo']
-        path = default_storage.save(str(file), ContentFile(file.read()))
+        friend = self.request.query_params.get('friendship', None)
+
+        if friend != None:
+            if friend == "add_friend":
+                f = Friend.objects.filter(userr=request.data['friend'],friendship=False)
+                u = User.objects.get(username=user_id)
+                u.friends.add(f[0])
+                u.save()
+            if friend == "refuse_friend":
+                print(user_id,request.data['friend'])
+                u = User.objects.get(username=user_id)
+                f = Friend.objects.get(userr=request.data['friend'],friendship=False)
+                u.friends.remove(f)
+            if friend == "accept_friend":
+                u = User.objects.get(username=user_id)
+                u1 = User.objects.get(username=request.data['friend'])
+                f = Friend.objects.get(userr=request.data['friend'], friendship=False)
+                ft = Friend.objects.get(userr=request.data['friend'], friendship=True)
+                ft2 = Friend.objects.get(userr=user_id, friendship=True)
+                u.friends.remove(f)
+                u.friends.add(ft)
+                u1.friends.add(ft2)
+            if friend == "delete_friend":
+                u = User.objects.get(username=user_id)
+                u1 = User.objects.get(username=request.data['friend'])
+                ft = Friend.objects.get(userr=request.data['friend'], friendship=True)
+                ft2 = Friend.objects.get(userr=user_id, friendship=True)
+                u.friends.remove(ft)
+                u1.friends.remove(ft2)
+        else:
+            u = User.objects.filter(username=user_id).update(
+                name=request.data['name'],
+                description=request.data['description'],
+                youtube=request.data['yt'],
+                instagram=request.data['insta'],
+                twitter=request.data['twitter'],
+                banner_photo=request.data['banner_photo'],
+            )
+            serialized_data = self.get_serializer(self.get_queryset()[0])
+            f = Friend.objects.filter(userr=user_id,friendship=False).update(
+                user_photo=serialized_data.data['profile_photo'].split('/')[-1]
+            )
+            f = Friend.objects.filter(userr=user_id,friendship=True).update(
+                user_photo=serialized_data.data['profile_photo'].split('/')[-1]
+            )
+            file = request.FILES['banner_photo']
+            path = default_storage.save(str(file), ContentFile(file.read()))
+            return Response({"http_method": "PUT"})
         return Response({"http_method": "PUT"})
 
     def get_queryset(self):
@@ -145,24 +229,3 @@ class UserViewSet(viewsets.ModelViewSet):
             return User.objects.all()
 
 
-class FriendViewSet(viewsets.ModelViewSet):
-    queryset = Friend.objects.all()
-    serializer_class = FriendSerializer
-
-    # queryset = Post.objects.all()
-    # queryset = queryset.order_by('-date')
-    '''def retrieve(self, request, *args, **kwargs):
-        query = self.get_queryset()
-        user = kwargs['pk']
-        for post in query:
-            if post.user.username == user:
-                return Response(self.get_serializer(post).data)'''
-
-    # Falta ver como filtrar directamente de bbdd
-    # @action(methods=['get'], detail=True)
-    # def get_user_post(self, request, *args, **kwargs, ):
-    #    query = self.get_queryset()
-    #    id = kwargs['id']
-    #    for post in query:
-    #        if post.user.id == id:
-    #            return Response(self.get_serializer(post).data)
