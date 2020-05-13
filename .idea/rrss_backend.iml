@@ -18,7 +18,7 @@
       <excludeFolder url="file://$MODULE_DIR$/venv_lu" />
       <excludeFolder url="file://$MODULE_DIR$/venv_lucia" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.6 (rrss_backend)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.7 (rrss_backend) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">

@@ -18,9 +18,41 @@ from .models import *
 from rest_framework_jwt.settings import api_settings
 from rest_framework import serializers
 
+
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        c = Comment.objects.create(
+            content=request.data['content'],
+            user=User.objects.filter(username=request.data['user'])[0],
+            post=Post.objects.filter(id=request.data['post'])[0]
+        )
+        serialized_data = self.get_serializer(c).data
+        return HttpResponse(serialized_data)
+
+    def get_queryset(self):
+        post = self.request.query_params.get('post', None)
+        print(post)
+        if post:
+            return Comment.objects.filter(post=post)
+        else:
+            return Comment.objects.all()
+
+    def destroy(self, request, *args, **kwargs):
+        url = request.build_absolute_uri()
+        if url.endswith('/'):
+            url = url[:-1]
+        url = url.split('/')[-1]
+        try:
+            c = Comment.objects.get(id=url)
+            if request.user == c.user:
+                c.delete()
+                return Response(status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        except Post.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -46,14 +78,14 @@ class PostViewSet(viewsets.ModelViewSet):
         else:
             return Post.objects.all()
 
-    def destroy(self, request,*args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
         url = request.build_absolute_uri()
         if url.endswith('/'):
             url = url[:-1]
         url = url.split('/')[-1]
         try:
             p = Post.objects.get(id=url)
-            if request.user == p.author:
+            if request.user == p.user:
                 p.delete()
                 return Response(status=status.HTTP_200_OK)
             return Response(status=status.HTTP_401_UNAUTHORIZED)
@@ -64,7 +96,7 @@ class PostViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (AllowAny, )
+    permission_classes = (AllowAny,)
 
     '''def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -83,24 +115,22 @@ class UserViewSet(viewsets.ModelViewSet):
 
         serialized_data = self.get_serializer(u)
         print(serialized_data)
-        return Response(serialized_data.data,status=status.HTTP_201_CREATED)
-
+        return Response(serialized_data.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, *args, **kwargs):
         serializer = UserSerializer(request.user)
         return HttpResponse(serializer.data)
-
 
     def put(self, request):
         print(request.data)
         user_id = self.request.query_params.get('user', None)
         u = User.objects.filter(username=user_id).update(
             name=request.data['name'],
-            description = request.data['description'],
-            youtube = request.data['yt'],
-            instagram = request.data['insta'],
-            twitter = request.data['twitter'],
-            banner_photo = request.data['banner_photo'],
+            description=request.data['description'],
+            youtube=request.data['yt'],
+            instagram=request.data['insta'],
+            twitter=request.data['twitter'],
+            banner_photo=request.data['banner_photo'],
         )
         file = request.FILES['banner_photo']
         path = default_storage.save(str(file), ContentFile(file.read()))
@@ -119,11 +149,7 @@ class FriendViewSet(viewsets.ModelViewSet):
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
 
-
-
-
-
- # queryset = Post.objects.all()
+    # queryset = Post.objects.all()
     # queryset = queryset.order_by('-date')
     '''def retrieve(self, request, *args, **kwargs):
         query = self.get_queryset()
@@ -133,8 +159,8 @@ class FriendViewSet(viewsets.ModelViewSet):
                 return Response(self.get_serializer(post).data)'''
 
     # Falta ver como filtrar directamente de bbdd
-    #@action(methods=['get'], detail=True)
-    #def get_user_post(self, request, *args, **kwargs, ):
+    # @action(methods=['get'], detail=True)
+    # def get_user_post(self, request, *args, **kwargs, ):
     #    query = self.get_queryset()
     #    id = kwargs['id']
     #    for post in query:

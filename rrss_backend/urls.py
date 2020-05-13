@@ -24,7 +24,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 
 router = routers.DefaultRouter()
 router.register(r'posts', PostViewSet, basename='Post')
-router.register(r'comments', CommentViewSet)
+router.register(r'comments', CommentViewSet, basename='Comment')
 router.register(r'users', UserViewSet, basename='User' ) #
 router.register(r'friends', FriendViewSet)
 
