@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Finger+Paint&display=swap');
+@import url("https://db.onlinewebfonts.com/c/fa0a7efe2ab0707d5ff339fd850d238e?family=FTDeadMansDiaryW00-Regular");
+
+.navbar{
+    background-color: #78a736 !important;
+    position: fixed;
+    top:0px;
+    max-height: 8.5%;
+
+}
+
+.navbar_color{
+    background-color: #78a736 !important;
+}
+
+.navbar-text{
+    color: black !important;
+    height: 100%;
+    font-family: 'Roboto', cursive;
+    text-align: center;
+    font-size:100%;
+}
+
+.clickable{
+    max-height: 45%;
+    max-width: 45%;
+    cursor: pointer;
+
+}
+.topLink {
+        text-align:center;
+}
+
