@@ -12,21 +12,19 @@ class Friend(models.Model):
         return f'{self.userr}:{self.friendship}'
 
 class User(AbstractUser):
-
-    #username = models.CharField(max_length=100)
+    # username = models.CharField(max_length=100)
     email = models.CharField(max_length=100, blank=True)
     password = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100, blank=True)
-    profile_photo = models.ImageField(upload_to='',default="default_profile.png")
-    banner_photo = models.ImageField(upload_to='',default="default_banner.png")
+    banner_photo = models.ImageField(upload_to='', default="default_banner.png")
     youtube = models.CharField(max_length=100, blank=True)
     instagram = models.CharField(max_length=100, blank=True)
     twitter = models.CharField(max_length=100, blank=True)
-    friends = models.ManyToManyField(Friend,null=True)
-    def __str__(self):
-        return f'{self.username}: {self.password},{self.email},{self.name},{self.description},{self.profile_photo},{self.banner_photo},{self.friends}'
+    friends = models.ManyToManyField(Friend, null=True)
 
+    def str(self):
+        return f'{self.username}: {self.password},{self.email},{self.name},{self.description},{self.banner_photo},{self.friends}'
 
 
 class Post(models.Model):

@@ -9,6 +9,8 @@ import PostList from "./postList";
 import PrimarySearchAppBar from "./header/header";
 import Redirect from "react-router-dom/es/Redirect";
 import Chat from "./Chat";
+import NotFound from "./NotFound";
+import NoAccess from "./NoAccess";
 
 function PrivateRoute ({component: Component, authed, ...rest}) {
     return (
@@ -42,13 +44,14 @@ class App extends Component{
                             <Route path="/posts/:username" component={PostList} exact={true}/>
                             <Route path="/posts" component={PostList}/>
                             <Route path="/chat" component={Chat}/>
+                            <Route path="*" component={NotFound}/>
 
 
                         </Switch>
                         :<Switch>
                             <Route exact path='/' component={Login} />
                             <Route path="/register" component={SignUp} />
-
+                            <Route path="*" component={NoAccess}/>
                         </Switch>
                     }
 

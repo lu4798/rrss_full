@@ -15,14 +15,14 @@ export default class AddComment extends Component {
 
     getProfile = () => {
 
-        axios.get('../api/users?user=' + localStorage.getItem('user'),{
+        axios.get('http://127.0.0.1:8000/users?user=' + localStorage.getItem('user'),{
             params: {
                 user: this.state.username
             }}).then( (r) => {
             console.log("postear",r.data);
             this.setState({
                 user: r.data[0],
-                profile_photo: r.data[0]['profile_photo'],
+                profile_photo: r.data[0]['banner_photo'],
                 username:r.data[0]['username']
             })
         })
@@ -45,7 +45,7 @@ export default class AddComment extends Component {
         form_data.append('user', this.state.user.username);
         form_data.append('post', this.props.post);
         console.log(form_data);
-        let url = '../api/comments/';
+        let url = 'http://127.0.0.1:8000/comments/';
         axios.post(url, form_data, {
             headers: {
                 'content-type': 'multipart/form-data'

@@ -27,7 +27,8 @@ export default class Comment extends Component {
                             <img src={this.props.data.profile_image} className="rounded-circle" height="50px" width="50px" alt="avatar"></img>
                         </div>
                         <div className="col-9 " >
-                            <h5>@{this.props.data.username}</h5>
+                            <h5 onClick = {() => {window.location = "/posts/" + this.props.data.username}} style={{textDecoration:"underline",cursor:"pointer"}}
+>@{this.props.data.username}</h5>
                         </div>
                         <div className="col-2" >
                             <IconButton className="icon" aria-label="delete" onClick={() => {this.props.on_click_delete(this.props.data.id)}}>

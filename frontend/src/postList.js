@@ -7,6 +7,7 @@ import axios from "axios";
 import FriendsCard from "./friends/friends";
 import Chat from "./Chat";
 import PetitionCard from "./PetitionCard";
+import Twitter from "./Twitter";
 
 const config = {
     headers: {
@@ -58,7 +59,7 @@ export default class PostList extends Component {
                 friendRequest: aux,
                 friendList: aux2,
                 friendGestor:aux3,
-                user_photo: r.data[0].profile_photo
+                user_photo: r.data[0].banner_photo
             });
             console.log("FOTOOO",this.state.user_photo)
         });
@@ -76,7 +77,7 @@ export default class PostList extends Component {
             for (let x in r.data)
             {
                 post_dict.username = r.data[x]['user']['username'];
-                post_dict.profile_image = r.data[x]['user']['profile_photo'];
+                post_dict.profile_image = r.data[x]['user']['banner_photo'];
                 post_dict.title = r.data[x]['title'];
                 post_dict.content = r.data[x]['content'];
                 post_dict.image = r.data[x]['image'];
@@ -99,10 +100,8 @@ render () {
         console.log("PHOTO",this.state.user_photo);
         let user_search = this.props.match.params.username;
     return (
-        <div>
-
-            <div className="row post-list">
-                <div className="col-3 col-sm-3">
+        <div className="post-list">
+                <div className="col-3 col-sm-3 col-lg-3">
                     <div className="row">
                         {this.props.match.params.username
                             ?<ProfileCard username={this.props.match.params.username} friends = {this.state.friendGestor} user_photo ={this.state.user_photo}/>
@@ -112,10 +111,12 @@ render () {
                     <div className="row">
                         <PetitionCard friendRequests={this.state.friendRequest}/>
                     </div>
-
-
+                    <div className="row">
+                        <Twitter/>
+                    </div>
                 </div>
-                <div className="col-6 col-sm-6">
+
+                <div className="col-6 col-sm-6 col-lg-6">
                     <div className="post" >
 
                         {user_search !== undefined && user_search !== localStorage.getItem("user")
@@ -126,7 +127,8 @@ render () {
                         {this.state.posts.map((post) => {return(<CardPost data={post} on_click_delete={this.onDelete}/>)})}
                     </div>
                 </div>
-                <div className="col-3 col-sm-3">
+
+                <div className="col-3 col-sm-3 col-lg-3">
                     <div className="row">
                         <FriendsCard friendList={this.state.friendList}/>
                     </div>
@@ -134,10 +136,6 @@ render () {
                         <Chat/>
                     </div>
                 </div>
-
-
-
-            </div>
         </div>
     );
 }

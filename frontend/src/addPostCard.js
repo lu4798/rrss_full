@@ -32,7 +32,7 @@ export default class AddPostCard extends Component {
                     console.log("postear",r.data);
                     this.setState({
                         user: r.data[0],
-                        profile_photo: r.data[0]['profile_photo'],
+                        profile_photo: r.data[0]['banner_photo'],
                         username:r.data[0]['username']
                     })
         })
@@ -61,7 +61,8 @@ export default class AddPostCard extends Component {
         e.preventDefault();
 
         let form_data = new FormData();
-        form_data.append('image', this.state.image, this.state.image.name);
+       if(this.state.image != null)
+            form_data.append('image', this.state.image, this.state.image.name);
         form_data.append('title', this.state.title);
         form_data.append('content', this.state.content);
         form_data.append('user', this.state.user.username);
@@ -73,7 +74,7 @@ export default class AddPostCard extends Component {
             }
         })
             .then(res => {
-                console.log(res.data);
+                window.location.reload();
             })
             .catch(err => console.log(err))
     };
@@ -96,14 +97,14 @@ export default class AddPostCard extends Component {
                             <div className="col-2" />
                             <div className="form-group">
                                 <input type="text" className="form-control" placeholder="Add a title " id="post-input-title" name = "post-input-title"
-                                       onChange={this.onChangeTextField}/>
+                                       onChange={this.onChangeTextField} required/>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-2" />
                             <div className="form-group">
                                 <textarea className="form-control" placeholder="How was your day" id="post-input-content" name = "post-input-content"
-                                          onChange={this.onChangeTextField}/>
+                                          onChange={this.onChangeTextField} required/>
                             </div>
                         </div>
                         <div className="row">
@@ -111,7 +112,7 @@ export default class AddPostCard extends Component {
                                 <IconButton  className="icon icon-image fileContainer">
                                     <input type="file"
                                            id="image"
-                                           accept="image/png, image/jpeg"  onChange={this.handleImageChange} required style={{maxWidth:"10%"}}/>
+                                           accept="image/png, image/jpeg"  onChange={this.handleImageChange}  style={{maxWidth:"10%"}}/>
                                     <InsertPhotoIcon />
                                 </IconButton >
                             </div>

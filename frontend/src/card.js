@@ -14,9 +14,7 @@ import {Scope as browserHistory} from "@babel/traverse";
 export default class CardPost extends Component {
 
     state = {
-        likeCount: 0,
         expanded: false,
-        liked:true,
         friends: false,
         friendIcon: '',
         profile_photo:'',
@@ -26,20 +24,15 @@ export default class CardPost extends Component {
         deleteIcon:'',
     };
 
-    like = (event) => {
-        this.setState({liked:!this.state.liked });
-        if (this.state.liked){
-            this.setState({ likeCount: this.state.likeCount + 1});
-        }
-        else
-            this.setState({ likeCount: this.state.likeCount - 1});
-        console.log(this.state.likeCount);
-        console.log(this.state.liked);
-
-    };
     goToProfile = (username) => {
         const history = useHistory();
         history.push("/posts/"+username);
+    };
+
+    shareOnTwitter  = () => {
+        //window.open("http://www.google.com", 'popup-example');
+        window.open('https://twitter.com/intent/tweet?button_hashtag=cuarentena&text=Hey!%20Check%20this%20post%20on%20Cuarentena&url=http://www.google.com','popup','width=600,height=600');
+        return false;
     };
 
 
@@ -60,7 +53,8 @@ export default class CardPost extends Component {
                 <div className="card-body d-flex flex-row">
                     <img src={this.props.data.profile_image}  className="rounded-circle mr-3" height="50px" width="50px" alt="avatar"/>
                     <div className="card-t">
-                        <h5 className="card-title font-weight-bold mb-2"  onClick = {() => {window.location = "/posts/" + this.props.data.username}}> @{this.props.data.username} </h5>
+                        <h5 className="card-title font-weight-bold mb-2"  onClick = {() => {window.location = "/posts/" + this.props.data.username}} style={{textDecoration:"underline",cursor:"pointer"}}
+> @{this.props.data.username} </h5>
                         <h4 className="card-title  mb-2">{this.props.data.title}</h4>
                         <p className="card-text">{this.props.data.date}</p>
                     </div>
@@ -78,11 +72,9 @@ export default class CardPost extends Component {
                 </div>
                 <div className="card-body">
                     <p>{this.props.data.content}</p>
-                    <IconButton className="icon" aria-label="share">
-                        <ShareIcon/>
-                    </IconButton>
-                    <IconButton className="icon" aria-label="favorite" onClick={this.like}>{this.props.data.likes}
-                        <FavoriteIcon/>
+                    <IconButton className="icon" aria-label="share"
+                            onClick={this.shareOnTwitter}>
+                        <ShareIcon />
                     </IconButton>
                     <IconButton  aria-label="comment"  className="icon" onClick={() =>this.setState({ expanded: !this.state.expanded })}>
                         <ChatBubbleIcon/>

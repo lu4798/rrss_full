@@ -1,20 +1,13 @@
 import React, {Component} from "react";
 import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
-import axios from 'axios';
 import CardContent from "@material-ui/core/CardContent";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
-import default_photo from "../assets/logocute.png"
 
-const config = {
-    headers: {
-        Authorization: `JWT ${localStorage.getItem("session")}`
-    }
-};
 
 
 export default class FriendsCard extends Component{
@@ -24,18 +17,13 @@ export default class FriendsCard extends Component{
         connected : [],
         disconnected : []
     };
-    componentDidMount() {
-
-    }
 
 
 
     render()
     {
-
-
         return(
-            <Container style={{float: "right", borderColor: "#538c09"}}>
+            <Container>
                 <Card className='card'>
 
                     <CardContent>
@@ -55,5 +43,4 @@ export default class FriendsCard extends Component{
             </Container>
         )
     }
-
 }

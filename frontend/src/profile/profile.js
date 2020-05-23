@@ -16,7 +16,6 @@ import YouTubeIcon from '@material-ui/icons/YouTube';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
-import "./profile.css"
 import axios from "axios";
 import Button from "@material-ui/core/Button";
 import {Input, TextField} from "@material-ui/core";
@@ -31,6 +30,7 @@ export default class ProfileCard extends Component {
         description: '',
         profile_photo: null,
         banner_photo: null,
+        banner_replaced_photo:null,
         youtube: '',
         instagram: '',
         twitter: '',
@@ -59,7 +59,8 @@ export default class ProfileCard extends Component {
         form_data.append('insta', this.state.new_insta);
         form_data.append('twitter', this.state.new_twitter);
         form_data.append('description', this.state.new_description);
-        form_data.append('banner_photo', this.state.banner_photo,this.state.banner_photo.name);
+        if(this.state.banner_replaced_photo != null)
+            form_data.append('banner_photo', this.state.banner_replaced_photo,this.state.banner_replaced_photo.name);
         console.log("photo",this.state.banner_photo);
         let url = '../api/users/?user=' + this.props.username;
         axios.put(url, form_data, {
@@ -69,17 +70,13 @@ export default class ProfileCard extends Component {
         })
             .then(res => {
                 console.log("caca",res.data);
+                window.location.reload();
             })
             .catch(err => console.log(err))
     };
-    handleProfilePhoto = (e) => {
-        this.setState({
-            profile_photo: e.target.files[0]
-        })
-    };
     handleBannerPhoto = (e) => {
         this.setState({
-            banner_photo: e.target.files[0]
+            banner_replaced_photo: e.target.files[0]
         });
     };
     /*edit = () => {
@@ -128,7 +125,6 @@ export default class ProfileCard extends Component {
                 username: r.data[0]['username'],
                 name: r.data[0]['name'],
                 description: r.data[0]['description'],
-                profile_photo: r.data[0]['profile_photo'],
                 banner_photo: r.data[0]['banner_photo'],
                 youtube: r.data[0]['youtube'],
                 instagram: r.data[0]['instagram'],
@@ -189,15 +185,8 @@ export default class ProfileCard extends Component {
                     />
                     <CardContent>
                         <div className="row">
-                            <div className="col-3">
-                                <img src={this.state.profile_photo} className="rounded-circle" height="50px"
-                                     width="50px" alt="avatar"></img>
-                            </div>
                             <div className="col-7">
-
                                 <h3>@{this.state.username}</h3>
-
-
                             </div>
                             <div className={"col-0"}>
                                 {localStorage.getItem("user") === this.props.username && this.state.editable === false

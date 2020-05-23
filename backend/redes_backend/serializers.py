@@ -37,8 +37,8 @@ class UserSerializer(HyperlinkedModelSerializer):
         widgets = {
             'password': forms.PasswordInput(),
         }
-        fields = ['username', 'password', 'name', 'description', 'banner_photo', 'profile_photo', 'youtube',
-                  'instagram', 'twitter','token','friends']
+        fields = ['username', 'password', 'name', 'description', 'banner_photo', 'youtube',
+                  'instagram', 'twitter', 'token', 'friends']
 
     def get_token(self, obj):
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER

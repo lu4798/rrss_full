@@ -34,7 +34,7 @@ export default class CommentList extends Component {
             for (let x in r.data)
             {
                 comment_dict.username = r.data[x]['user']['username'];
-                comment_dict.profile_image = r.data[x]['user']['profile_photo'];
+                comment_dict.profile_image = r.data[x]['user']['banner_photo'];
                 comment_dict.content = r.data[x]['content'];
                 comment_dict.date = r.data[x]['date'];
                 comment_dict.likes = r.data[x]['likes'];

@@ -60,13 +60,19 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         print(request.data)
-        p = Post.objects.create(
-            title=request.data['title'],
-            content=request.data['content'],
-            image=request.data['image'],
-            user=User.objects.filter(username=request.data['user'])[0]
-        )
-        print(p.image)
+        try:
+            p = Post.objects.create(
+                title=request.data['title'],
+                content=request.data['content'],
+                image=request.data['image'],
+                user=User.objects.filter(username=request.data['user'])[0]
+            )
+        except:
+            p = Post.objects.create(
+                title=request.data['title'],
+                content=request.data['content'],
+                user=User.objects.filter(username=request.data['user'])[0]
+            )
         serialized_data = self.get_serializer(p).data
         return HttpResponse(serialized_data)
 
@@ -150,12 +156,12 @@ class UserViewSet(viewsets.ModelViewSet):
         print(serialized_data.data)
         f = Friend.objects.create(
             userr=serialized_data.data['username'],
-            user_photo=serialized_data.data['profile_photo'].split('/')[-1],
+            user_photo=serialized_data.data['banner_photo'].split('/')[-1],
             friendship=False
         )
         f = Friend.objects.create(
             userr=serialized_data.data['username'],
-            user_photo=serialized_data.data['profile_photo'].split('/')[-1],
+            user_photo=serialized_data.data['banner_photo'].split('/')[-1],
             friendship=True
         )
         return Response(serialized_data.data, status=status.HTTP_201_CREATED)
@@ -200,24 +206,32 @@ class UserViewSet(viewsets.ModelViewSet):
                 u.friends.remove(ft)
                 u1.friends.remove(ft2)
         else:
-            u = User.objects.filter(username=user_id).update(
-                name=request.data['name'],
-                description=request.data['description'],
-                youtube=request.data['yt'],
-                instagram=request.data['insta'],
-                twitter=request.data['twitter'],
-                banner_photo=request.data['banner_photo'],
-            )
-            serialized_data = self.get_serializer(self.get_queryset()[0])
-            f = Friend.objects.filter(userr=user_id,friendship=False).update(
-                user_photo=serialized_data.data['profile_photo'].split('/')[-1]
-            )
-            f = Friend.objects.filter(userr=user_id,friendship=True).update(
-                user_photo=serialized_data.data['profile_photo'].split('/')[-1]
-            )
-            file = request.FILES['banner_photo']
-            path = default_storage.save(str(file), ContentFile(file.read()))
-            return Response({"http_method": "PUT"})
+            try:
+                u = User.objects.filter(username=user_id).update(
+                    name=request.data['name'],
+                    description=request.data['description'],
+                    youtube=request.data['yt'],
+                    instagram=request.data['insta'],
+                    twitter=request.data['twitter'],
+                    banner_photo=request.data['banner_photo'],
+                )
+                serialized_data = self.get_serializer(self.get_queryset()[0])
+                f = Friend.objects.filter(userr=user_id, friendship=False).update(
+                    user_photo=serialized_data.data['banner_photo'].split('/')[-1]
+                )
+                f = Friend.objects.filter(userr=user_id, friendship=True).update(
+                    user_photo=serialized_data.data['banner_photo'].split('/')[-1]
+                )
+                file = request.FILES['banner_photo']
+                path = default_storage.save(str(file), ContentFile(file.read()))
+            except:
+                u = User.objects.filter(username=user_id).update(
+                    name=request.data['name'],
+                    description=request.data['description'],
+                    youtube=request.data['yt'],
+                    instagram=request.data['insta'],
+                    twitter=request.data['twitter'],
+                )
         return Response({"http_method": "PUT"})
 
     def get_queryset(self):
