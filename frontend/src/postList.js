@@ -27,7 +27,7 @@ export default class PostList extends Component {
     };
 
     onDelete = (postId) => {
-        axios.delete('../api/posts/' + postId, config).then(r=>{
+        axios.delete('../api/posts/' + postId + '/', config).then(r=>{
             if (r.status === 200){
                 window.alert("Post eliminado")
 

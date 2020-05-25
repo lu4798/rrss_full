@@ -18,7 +18,7 @@ export default class CommentList extends Component {
         });
     };*/
     onDelete = (commentId) => {
-        axios.delete('../api/comments/' + commentId).then(r=>{
+        axios.delete('../api/comments/' + commentId + '/').then(r=>{
             if (r.status === 200){
                 window.alert("comentario eliminado")
 
