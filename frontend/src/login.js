@@ -12,7 +12,7 @@ export default class Login extends Component {
     onSubmit = (event) => {
         event.preventDefault();
 
-        axios.post('http://127.0.0.1:8000/auth/', this.state).then (
+        axios.post('../auth/', this.state).then (
             r => {
             localStorage.setItem('session', r.data.token);
             localStorage.setItem('user', r.data.user.username);
