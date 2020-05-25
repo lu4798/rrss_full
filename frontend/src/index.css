@@ -108,6 +108,7 @@ body, html, .App, #root, .auth-wrapper {
 }
 .card-body {
   width: 100%;
+  min-width: 500px;
 }
 .MuiContainer-root {
   padding-left: 5%;

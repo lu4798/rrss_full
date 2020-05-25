@@ -172,8 +172,6 @@ class UserViewSet(viewsets.ModelViewSet):
 
     #Cambiarlo para que sea un poquito mas seguro
     def put(self, request):
-        print("DATOS",request.data['friend'])
-
         print(self.request.query_params)
         user_id = self.request.query_params.get('user', None)
         friend = self.request.query_params.get('friendship', None)
