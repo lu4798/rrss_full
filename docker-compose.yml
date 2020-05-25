@@ -25,6 +25,7 @@ services:
     volumes:
       - ./backend:/app
       - ./static:/static
+      - ./frontend:/frontend
     environment:
       - DJANGO_SETTINGS_MODULE=rrss_backend.settings
       - PYTHONUNBUFFERED=1
