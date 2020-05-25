@@ -10,4 +10,4 @@ done
 
 python manage.py migrate --noinput
 
-uvicorn mi_rrss.asgi:application --workers 2 --host 0.0.0.0 --port 8000 --reload --proxy-headers
+uvicorn rrss_backend.asgi:application --workers 2 --host 0.0.0.0 --port 8000 --reload --proxy-headers
