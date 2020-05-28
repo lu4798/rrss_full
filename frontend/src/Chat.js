@@ -27,6 +27,7 @@ class Chat extends Component {
         console.log(this.ws);
         this.ws.onopen = () => {
             console.log("Conectado al chat");
+             //this.ws.send("{target: 1234}")
         };
 
         this.ws.onmessage = event => {
@@ -36,7 +37,7 @@ class Chat extends Component {
 
 
             this.setState(state => ({messages: [...state.messages, message_data]}));
-            console.log(this.state);
+            console.log("State", this.state);
         };
 
         this.ws.onclose = () => {
