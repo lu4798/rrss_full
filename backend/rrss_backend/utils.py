@@ -2,11 +2,14 @@ from http import cookies
 
 from channels.auth import AuthMiddlewareStack
 from channels.db import database_sync_to_async
-from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.models import AnonymousUser
+
 from django.db import close_old_connections
 from rest_framework_jwt.authentication import BaseJSONWebTokenAuthentication, jwt_get_username_from_payload
 
 from redes_backend.serializers import UserTokenSerializer
+
+from backend.redes_backend.models import User
 
 
 def custom_jwt_response_handler(token, user=None, request=None):
