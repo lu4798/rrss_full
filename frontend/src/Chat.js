@@ -58,7 +58,7 @@ class Chat extends Component {
                     <CardContent>
                         <h3>Chat</h3>
                        {this.state.messages.map((m, i) => {
-                            return (<div key={i}><b>{m['username']}</b>: {m['message']}</div>);
+                            return ( <div key={i}><b>{m['username']}</b>: {m['message']}</div>);
                         })
                        }
                     <ChatInput onSendMessage={(msg) => this.sendMessage(msg)}/>
