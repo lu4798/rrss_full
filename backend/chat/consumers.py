@@ -5,8 +5,9 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        user = self.scope['user_task']
+        user = await self.scope['user_task']
         self.scope['user'] = user
+        print('scope in connect ', self.scope)
         self.room_name = 'general'
         self.room_group_name = 'chat_general'
         print(self.channel_name)
