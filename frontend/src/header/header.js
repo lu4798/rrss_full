@@ -29,14 +29,12 @@ export default class PrimarySearchAppBar extends Component {
 
 
 render() {
-
-
     return (
             <div>
                 <AppBar className={"navbar"}>
                     {localStorage.getItem('user')
                     ? <h1>Hola, {localStorage.getItem('user')}! </h1>
-                        : <h1/>
+                        : <h1> Adios</h1>
                     }
                     <Link className={"topLink"}><img src={perfil} className={"clickable"} onClick={() => {
                         window.location = "/posts/";
