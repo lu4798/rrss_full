@@ -24,8 +24,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print(self.scope)
-        user = await self.scope['user']
-        self.scope['our_user'] = user
         self.room_name = 'general'
         self.room_group_name = 'chat_general'
         print(self.channel_name)
