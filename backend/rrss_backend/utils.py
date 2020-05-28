@@ -9,7 +9,7 @@ from rest_framework_jwt.authentication import BaseJSONWebTokenAuthentication, jw
 
 from redes_backend.serializers import UserTokenSerializer
 
-from backend.redes_backend.models import User
+from redes_backend.models import User
 
 
 def custom_jwt_response_handler(token, user=None, request=None):
