@@ -6,7 +6,7 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.db import close_old_connections
 from rest_framework_jwt.authentication import BaseJSONWebTokenAuthentication, jwt_get_username_from_payload
 
-from backend.redes_backend.serializers import UserTokenSerializer
+from redes_backend.serializers import UserTokenSerializer
 
 
 def custom_jwt_response_handler(token, user=None, request=None):
