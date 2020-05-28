@@ -14,7 +14,7 @@ import Container from "@material-ui/core/Container";
 class Chat extends Component {
 
 
-    ws = new WebSocket('ws://' + window.location.hostname +'/ws/chat/',  ['auth_token', localStorage.getItem("session")]);
+    ws = new WebSocket('ws://' + window.location.hostname +'/ws/chat/');
     state = {
         data : '',
         friendList : [],

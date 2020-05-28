@@ -1,56 +1,29 @@
-from channels.generic.websocket import AsyncWebsocketConsumer, JsonWebsocketConsumer
-from django.contrib.auth.models import AnonymousUser
 import json
 
-'''
+from channels.generic.websocket import AsyncWebsocketConsumer
+
+
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        user = await self.scope['user']
+        user = await self.scope['user_task']
         self.scope['user'] = user
-
-        if user.is_anonymous:
-            await self.close()
-        else:
-            await self.accept()
-
-    async def receive(self, text_data=None, bytes_data=None):
-        await self.send(text_data)
-
-    async def disconnect(self, code):
-        pass
-        '''
-
-
-class ChatConsumer(AsyncWebsocketConsumer):
-    async def connect(self):
-        print(self.scope)
         self.room_name = 'general'
         self.room_group_name = 'chat_general'
         print(self.channel_name)
 
-        if self._is_authenticated():
-            print("intenta conectar")
-            self.channel_layer.group_add(
+
+        if user.is_anonymous:
+            await self.close()
+        else:
+            await self.channel_layer.group_add(
                 self.room_group_name,
                 self.channel_name
             )
-            await self.accept('auth_token')
-        else:
-            print("ws client auth error")
-            await self.close(code=4003)
+            await self.accept()
 
-    def _is_authenticated(self):
-        if hasattr(self.scope['headers'], 'auth_error'):
-            print("error1")
-            return False
-        if type(self.scope['user']) is AnonymousUser or not self.scope['user']:
-            print("error2")
-            return False
-        return True
 
-    async def receive(self, text_data=None, bytes_data=None, **kwargs):
-        print("Mensaje, ", text_data)
-        print("Enviado por ", self.scope['user'])
+    async def receive(self, text_data=None, bytes_data=None):
+
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -60,11 +33,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
 
+
     async def message(self, event):
         await self.send(text_data=json.dumps({
             'message': event['message'],
             'username': event['username']
         }))
+
 
     async def disconnect(self, code):
         await self.channel_layer.group_discard(
