@@ -26,16 +26,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default class PrimarySearchAppBar extends Component {
-
+    isLogged = () =>{
+        if(localStorage.getItem('user')){
+            return(
+                <h1>Hola, {localStorage.getItem('user')}! </h1>
+            )
+        }
+        else{
+            return( <h1></h1>)
+        }
+    };
 
 render() {
     return (
             <div>
                 <AppBar className={"navbar"}>
-                    {localStorage.getItem('user')
-                    ? <h1>Hola, {localStorage.getItem('user')}! </h1>
-                        : <h1> Adios</h1>
-                    }
+                    {this.isLogged}
                     <Link className={"topLink"}><img src={perfil} className={"clickable"} onClick={() => {
                         window.location = "/posts/";
                         window.scrollTo(0, 0);

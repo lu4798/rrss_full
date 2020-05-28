@@ -1,5 +1,6 @@
 from channels.generic.websocket import AsyncWebsocketConsumer, JsonWebsocketConsumer
 from django.contrib.auth.models import AnonymousUser
+import json
 
 '''
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -22,8 +23,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 class ChatConsumer(JsonWebsocketConsumer):
     def connect(self):
+        user = self.scope['user_task']
+        self.scope['user'] = user
+        self.room_name = 'general'
+        self.room_group_name = 'chat_general'
+        print(self.channel_name)
+
         if self._is_authenticated():
             print("intenta conectar")
+            self.channel_layer.group_add(
+                self.room_group_name,
+                self.channel_name
+            )
             self.accept('auth_token')
         else:
             print("ws client auth error")
@@ -39,4 +50,24 @@ class ChatConsumer(JsonWebsocketConsumer):
         return True
 
     def receive(self, text_data=None, bytes_data=None):
-        self.send(text_data)
+        self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'message',
+                'message': text_data,
+                'username': self.scope['user'].username
+            }
+        )
+
+    def message(self, event):
+        self.send(text_data=json.dumps({
+            'message': event['message'],
+            'username': event['username']
+        }))
+
+
+    def disconnect(self, code):
+         self.channel_layer.group_discard(
+            self.room_group_name,
+        self.channel_name
+        )

@@ -19,7 +19,8 @@ class Chat extends Component {
         data : '',
         friendList : [],
         connected : [],
-        disconnected : []
+        disconnected : [],
+        messages: []
     };
 
     componentDidMount() {
@@ -30,8 +31,12 @@ class Chat extends Component {
 
         this.ws.onmessage = event => {
 
-            console.log("Mensaje recibido: ", event.data);
-            const message = JSON.parse(event.data);
+            console.log(event);
+            const message_data = JSON.parse(event.data);
+
+
+            this.setState(state => ({messages: [...state.messages, message_data]}));
+            console.log(this.state);
         };
 
         this.ws.onclose = () => {
@@ -49,16 +54,10 @@ class Chat extends Component {
                 <Card className='card'>
                     <CardContent>
                         <h3>Chat</h3>
-                        <List component="nav">
-                            {this.state.friendList.map( (friend) => {return(<ListItem button>
-                                <ListItemAvatar>
-                                    <Avatar
-                                        src={default_photo}
-                                    />
-                                </ListItemAvatar>
-                                <ListItemText primary={friend} />
-                            </ListItem>)})}
-                        </List>
+                       {this.state.messages.map((m, i) => {
+                            return (<div key={i}><b>{m['username']}</b>: {m['message']}</div>);
+                        })
+                       }
                     <ChatInput onSendMessage={(msg) => this.sendMessage(msg)}/>
                     </CardContent>
                 </Card>
