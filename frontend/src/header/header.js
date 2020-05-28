@@ -36,14 +36,13 @@ render() {
                 <AppBar className={"navbar"}>
                     {localStorage.getItem('user')
                     ? <h1>Hola, {localStorage.getItem('user')}! </h1>
-                        : <h1></h1>
+                        : <h1/>
                     }
                     <Link className={"topLink"}><img src={perfil} className={"clickable"} onClick={() => {
                         window.location = "/posts/";
                         window.scrollTo(0, 0);
                     }}/></Link>
                     {localStorage.getItem('user')
-
                         ? <Paper>
                             <InputBase
 
