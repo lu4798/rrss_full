@@ -5,6 +5,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
+        print("intenta conectar")
         user = await self.scope['user_task']
         self.scope['user'] = user
         print('scope in connect ', self.scope)
