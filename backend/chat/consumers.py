@@ -21,9 +21,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         '''
 
 
-class ChatConsumer(JsonWebsocketConsumer):
-    def connect(self):
+class ChatConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
         print(self.scope)
+        user = await self.scope['user']
+        self.scope['our_user'] = user
         self.room_name = 'general'
         self.room_group_name = 'chat_general'
         print(self.channel_name)
@@ -34,10 +36,10 @@ class ChatConsumer(JsonWebsocketConsumer):
                 self.room_group_name,
                 self.channel_name
             )
-            self.accept('auth_token')
+            await self.accept('auth_token')
         else:
             print("ws client auth error")
-            self.close(code=4003)
+            await self.close(code=4003)
 
     def _is_authenticated(self):
         if hasattr(self.scope['headers'], 'auth_error'):
@@ -48,10 +50,10 @@ class ChatConsumer(JsonWebsocketConsumer):
             return False
         return True
 
-    def receive(self, text_data=None, bytes_data=None, **kwargs):
+    async def receive(self, text_data=None, bytes_data=None, **kwargs):
         print("Mensaje, ", text_data)
         print("Enviado por ", self.scope['user'].username)
-        self.channel_layer.group_send(
+        await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'message',
@@ -60,14 +62,14 @@ class ChatConsumer(JsonWebsocketConsumer):
             }
         )
 
-    def message(self, event):
-        self.send(text_data=json.dumps({
+    async def message(self, event):
+        await self.send(text_data=json.dumps({
             'message': event['message'],
             'username': event['username']
         }))
 
-    def disconnect(self, code):
-        self.channel_layer.group_discard(
+    async def disconnect(self, code):
+        await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
