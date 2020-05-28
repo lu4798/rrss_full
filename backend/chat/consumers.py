@@ -20,6 +20,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         pass
         '''
 
+
 class ChatConsumer(JsonWebsocketConsumer):
     def connect(self):
         print(self.scope)
@@ -47,7 +48,9 @@ class ChatConsumer(JsonWebsocketConsumer):
             return False
         return True
 
-    def receive(self, text_data=None, bytes_data=None):
+    def receive(self, text_data=None, bytes_data=None, **kwargs):
+        print("Mensaje, ", text_data)
+        print("Enviado por ", self.scope['user'].username)
         self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -63,9 +66,8 @@ class ChatConsumer(JsonWebsocketConsumer):
             'username': event['username']
         }))
 
-
     def disconnect(self, code):
-         self.channel_layer.group_discard(
+        self.channel_layer.group_discard(
             self.room_group_name,
-        self.channel_name
+            self.channel_name
         )
