@@ -27,7 +27,7 @@ class Chat extends Component {
         console.log(this.ws);
         this.ws.onopen = () => {
             console.log("Conectado al chat");
-            this.sendMessage("mensaje de prueba");
+            //this.sendMessage("mensaje de prueba");
              //this.ws.send("{target: 1234}")
         };
 
