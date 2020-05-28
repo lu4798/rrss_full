@@ -15,7 +15,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 
         if user.is_anonymous:
-            await self.close()
+            pass
+            #await self.close()
         else:
             await self.channel_layer.group_add(
                 self.room_group_name,
