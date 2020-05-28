@@ -34,7 +34,10 @@ render() {
     return (
             <div>
                 <AppBar className={"navbar"}>
-                    <h1>Hola, {localStorage.getItem('user')}! </h1>
+                    {localStorage.getItem('user')
+                    ? <h1>Hola, {localStorage.getItem('user')}! </h1>
+                        : <h1></h1>
+                    }
                     <Link className={"topLink"}><img src={perfil} className={"clickable"} onClick={() => {
                         window.location = "/posts/";
                         window.scrollTo(0, 0);
