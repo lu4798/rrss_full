@@ -20,9 +20,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         pass
         '''
 
-
 class ChatConsumer(JsonWebsocketConsumer):
     def connect(self):
+        print(self.scope)
         user = self.scope['user_task']
         self.scope['user'] = user
         self.room_name = 'general'
