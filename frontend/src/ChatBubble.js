@@ -10,13 +10,13 @@ class ChatBubble extends Component {
 
     setPosicion = () =>{
         if (this.props.data.username === localStorage.getItem('user')){
-                return <CardContent className={"bubble-right"}>
+                return <CardContent className="bubble-right">
                      <p>{this.props.data.username}</p>
                         <hr/>
                         <h6>{this.props.data.message}</h6>
                     </CardContent>
         }
-        else   return <CardContent className={"bubble-left"}>
+        else   return <CardContent className="bubble-left">
                      <p>{this.props.data.username}</p>
                         <hr/>
                         <h6>{this.props.data.message}</h6>
