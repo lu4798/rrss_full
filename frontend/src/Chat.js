@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import ChatInput from "./ChatInput";
+import ChatBubble from "./ChatBubble";
 import Card from "@material-ui/core/Card/Card";
 import CardContent from "@material-ui/core/CardContent";
 import List from "@material-ui/core/List";
@@ -9,6 +10,7 @@ import Avatar from "@material-ui/core/Avatar";
 import default_photo from "./assets/logocute.png";
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import Container from "@material-ui/core/Container";
+import CardPost from "./card";
 
 
 class Chat extends Component {
@@ -58,7 +60,7 @@ class Chat extends Component {
                     <CardContent>
                         <h3>Chat</h3>
                        {this.state.messages.map((m, i) => {
-                            return ( <div key={i}><b>{m['username']}</b>: {m['message']}</div>);
+                           return(<ChatBubble data={m}/>)
                         })
                        }
                     <ChatInput onSendMessage={(msg) => this.sendMessage(msg)}/>

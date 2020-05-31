@@ -49,7 +49,6 @@ render() {
                     {localStorage.getItem('user')
                         ? <Paper>
                             <InputBase
-
                                 id={"search_input"}
                                 placeholder="Search user"
                             />
