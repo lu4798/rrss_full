@@ -57,14 +57,16 @@ class Chat extends Component {
         return(
             <Container style={{float: "right", borderColor: "#538c09"}}>
                 <Card className='card'>
+                      <h3>Chat</h3>
                     <CardContent className='chat'>
-                        <h3>Chat</h3>
+
                        {this.state.messages.map((m, i) => {
                            return(<ChatBubble data={m}/>)
                         })
                        }
-                    <ChatInput onSendMessage={(msg) => this.sendMessage(msg)}/>
+
                     </CardContent>
+                     <ChatInput onSendMessage={(msg) => this.sendMessage(msg)}/>
                 </Card>
             </Container>
         );
