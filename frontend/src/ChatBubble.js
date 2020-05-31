@@ -14,7 +14,8 @@ class ChatBubble extends Component {
                     {console.log(this.props)}
                     <CardContent>
                         <p>{this.props.data.username}</p>
-                        <h5>{this.props.data.message}</h5>
+                        <hr/>
+                        <h6>{this.props.data.message}</h6>
                     </CardContent>
                 </Card>
 

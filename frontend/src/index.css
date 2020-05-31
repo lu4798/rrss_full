@@ -109,7 +109,11 @@ body, html, .App, #root, .auth-wrapper {
 .bubble{
   background-color: #82aa4e !important ;
   border-color: #538c09 !important;
-  color: white;
+  color: white !important;
+  padding: 8px;
+}
+.bubble p{
+  padding: 0;
 }
 
 .card-body {
