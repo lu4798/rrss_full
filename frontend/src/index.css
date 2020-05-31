@@ -152,6 +152,11 @@ body, html, .App, #root, .auth-wrapper {
   margin: 0;
 }
 
+.chat {
+  min-height: 200px;
+  overflow-y: scroll;
+}
+
 
 .card-body {
   width: 100%;

@@ -29,7 +29,7 @@ class Chat extends Component {
         console.log(this.ws);
         this.ws.onopen = () => {
             console.log("Conectado al chat");
-            //this.sendMessage("mensaje de prueba");
+            this.sendMessage("Se ha conectado al chat");
              //this.ws.send("{target: 1234}")
         };
 
@@ -57,7 +57,7 @@ class Chat extends Component {
         return(
             <Container style={{float: "right", borderColor: "#538c09"}}>
                 <Card className='card'>
-                    <CardContent>
+                    <CardContent className='chat'>
                         <h3>Chat</h3>
                        {this.state.messages.map((m, i) => {
                            return(<ChatBubble data={m}/>)
