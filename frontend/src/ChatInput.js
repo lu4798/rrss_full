@@ -14,6 +14,7 @@ class ChatInput extends Component {
                 e.preventDefault();
                 this.props.onSendMessage(this.state.message);
                 this.setState({message:''});
+                this.state.message.scrollIntoView({ behavior: "smooth" });
             }}>
                 <input
                     type ="text"

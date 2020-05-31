@@ -153,7 +153,7 @@ body, html, .App, #root, .auth-wrapper {
 }
 
 .chat {
-  max-height: 600px;
+  max-height: 500px;
   overflow-y: scroll;
 }
 
