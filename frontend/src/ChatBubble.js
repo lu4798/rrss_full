@@ -12,7 +12,7 @@ class ChatBubble extends Component {
             <Container style={{float: "right", borderColor: "#538c09"}}>
                 <Card className='card bubble'>
                     {console.log(this.props)}
-                    <CardContent>
+                    <CardContent className='bubble'>
                         <p>{this.props.data.username}</p>
                         <hr/>
                         <h6>{this.props.data.message}</h6>
