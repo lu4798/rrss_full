@@ -13,10 +13,11 @@ class ChatBubble extends Component {
                 <Card className='card bubble'>
                     {console.log(this.props)}
                     <CardContent>
-                        <h4>{this.props.data.message}</h4>
+                        <p>{this.props.data.username}</p>
+                        <h5>{this.props.data.message}</h5>
                     </CardContent>
                 </Card>
-                <p>{this.props.data.username}</p>
+
             </Container>
         );
 
