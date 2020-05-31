@@ -9,9 +9,9 @@ class ChatBubble extends Component {
 
     setPosicion = () =>{
         if (this.props.data.username === localStorage.getItem('user')){
-            return "end";
+            return "bubble-right";
         }
-        else return "start";
+        else return "bubble-left";
 };
 
     render(){
@@ -19,7 +19,7 @@ class ChatBubble extends Component {
             <Container style={{float: "right", borderColor: "#538c09"}}>
                 <Card className='card bubble' >
                     {console.log(this.props)}
-                    <CardContent className='bubble' style={{textAlign: this.setPosicion + "!important"}}>
+                    <CardContent className={this.setPosicion}>
                         <p>{this.props.data.username}</p>
                         <hr/>
                         <h6>{this.props.data.message}</h6>

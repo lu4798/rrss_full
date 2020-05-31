@@ -106,6 +106,21 @@ body, html, .App, #root, .auth-wrapper {
   margin-bottom: 5%;
 
 }
+.bubble-left{
+  background-color: #82aa4e !important ;
+  border-color: #538c09 !important;
+  color: white !important;
+  padding: 4px !important;
+  text-align: start !important;
+}
+.bubble-left p{
+  padding: 0;
+  margin: 0;
+}
+.bubble-left hr{
+  padding: 2px;
+  margin: 0;
+}
 .bubble{
   background-color: #82aa4e !important ;
   border-color: #538c09 !important;
@@ -117,6 +132,22 @@ body, html, .App, #root, .auth-wrapper {
   margin: 0;
 }
 .bubble hr{
+  padding: 2px;
+  margin: 0;
+}
+.bubble-right{
+  background-color: #82aa4e !important ;
+  border-color: #538c09 !important;
+  color: white !important;
+  padding: 4px !important;
+  text-align: start !important;
+
+}
+.bubble-right p{
+  padding: 0;
+  margin: 0;
+}
+.bubble-right hr{
   padding: 2px;
   margin: 0;
 }
