@@ -17,9 +17,9 @@ class ChatBubble extends Component {
     render(){
         return(
             <Container style={{float: "right", borderColor: "#538c09"}}>
-                <Card className='card bubble' style={{float: this.setPosicion}}>
+                <Card className='card bubble' >
                     {console.log(this.props)}
-                    <CardContent className='bubble'>
+                    <CardContent className='bubble' style={{float: this.setPosicion}}>
                         <p>{this.props.data.username}</p>
                         <hr/>
                         <h6>{this.props.data.message}</h6>
