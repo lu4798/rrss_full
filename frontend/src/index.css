@@ -140,7 +140,7 @@ body, html, .App, #root, .auth-wrapper {
   border-color: #538c09 !important;
   color: white !important;
   padding: 4px !important;
-  text-align: start !important;
+  text-align: end !important;
 
 }
 .bubble-right p{
