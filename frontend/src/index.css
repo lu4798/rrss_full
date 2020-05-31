@@ -110,13 +110,16 @@ body, html, .App, #root, .auth-wrapper {
   background-color: #82aa4e !important ;
   border-color: #538c09 !important;
   color: white !important;
-  padding: 8px !important;
+  padding: 4px !important;
 }
 .bubble p{
   padding: 0;
   margin: 0;
 }
-
+.bubble hr{
+  padding: 2px;
+  margin: 0;
+}
 
 
 .card-body {
