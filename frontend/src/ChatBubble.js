@@ -12,10 +12,10 @@ class ChatBubble extends Component {
             <Container style={{float: "right", borderColor: "#538c09"}}>
                 <Card className='card'>
                     <CardContent>
-                        <h4>{this.props.m.message}</h4>
+                        <h4>{this.props.message}</h4>
                     </CardContent>
                 </Card>
-                <p>{this.props.m.username}</p>
+                <p>{this.props.username}</p>
             </Container>
         );
 
