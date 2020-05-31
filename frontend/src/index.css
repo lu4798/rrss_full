@@ -110,7 +110,7 @@ body, html, .App, #root, .auth-wrapper {
   background-color: #82aa4e !important ;
   border-color: #538c09 !important;
   color: white !important;
-  padding: 8px;
+  padding: 8px !important;
 }
 .bubble p{
   padding: 0;
