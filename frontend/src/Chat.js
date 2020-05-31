@@ -66,9 +66,10 @@ class Chat extends Component {
                            return(<ChatBubble data={m}/>)
                         })
                        }
+                       <div id = "div_end"/>
 
                     </CardContent>
-                     <ChatInput onSendMessage={(msg) => this.sendMessage(msg)}/>
+                     <ChatInput onSendMessage={(msg) =>this.sendMessage(msg)}/>
                       </CardContent>
                 </Card>
             </Container>
