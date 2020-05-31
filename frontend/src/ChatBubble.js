@@ -7,10 +7,17 @@ import Container from "@material-ui/core/Container";
 
 class ChatBubble extends Component {
 
+    setPosicion = () =>{
+        if (this.props.data.username === localStorage.getItem('user')){
+            return "right";
+        }
+        else return "left";
+};
+
     render(){
         return(
             <Container style={{float: "right", borderColor: "#538c09"}}>
-                <Card className='card bubble'>
+                <Card className='card bubble' style={{float: this.setPosicion}}>
                     {console.log(this.props)}
                     <CardContent className='bubble'>
                         <p>{this.props.data.username}</p>
