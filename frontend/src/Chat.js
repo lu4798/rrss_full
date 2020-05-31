@@ -57,7 +57,9 @@ class Chat extends Component {
         return(
             <Container style={{float: "right", borderColor: "#538c09"}}>
                 <Card className='card'>
-                      <h3>Chat</h3>
+                     <CardContent>
+                         <h3>Chat</h3>
+
                     <CardContent className='chat'>
 
                        {this.state.messages.map((m, i) => {
@@ -67,6 +69,7 @@ class Chat extends Component {
 
                     </CardContent>
                      <ChatInput onSendMessage={(msg) => this.sendMessage(msg)}/>
+                      </CardContent>
                 </Card>
             </Container>
         );
