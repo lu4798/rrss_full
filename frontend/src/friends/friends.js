@@ -41,7 +41,7 @@ export default class FriendsCard extends Component {
     };
 
     componentDidMount() {
-        axios.get('../api/chat/').then(
+        axios.get('../api/chat/?user_chat=' +localStorage.get('user')).then(
             response => {
                 let aux = [];
                 for (let i of response.data) {

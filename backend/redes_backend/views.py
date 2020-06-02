@@ -1,6 +1,7 @@
 from os import link
 
 from django.contrib.auth.hashers import make_password
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 import os
@@ -166,14 +167,18 @@ class ChatViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user1 = self.request.query_params.get('user1', None)
         user2 = self.request.query_params.get('user2', None)
+        user_chat = self.request.query_params.get('user_chat', None)
 
         if user1 and user2:
             try:
                 return Chat.objects.filter(user1__username=user1, user2__username=user2)
             except:
                 return Chat.objects.filter(user1__username=user2, user2__username=user1)
-        else:
-            return Chat.objects.all()
+        elif user_chat:
+            try:
+                return Chat.objects.filter(Q(user1__username=user_chat) | Q(user2__username=user_chat))
+            except:
+                pass
 
 
 class UserViewSet(viewsets.ModelViewSet):
