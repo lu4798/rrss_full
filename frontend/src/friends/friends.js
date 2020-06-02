@@ -17,22 +17,14 @@ export default class FriendsCard extends Component{
         friendList : [],
         connected : [],
         disconnected : [],
-        user1: '',
-        user2:'',
     };
 
     startChat =(username)=>{
-        this.setState({
-            user1: localStorage.getItem('user'),
-            user2: username
-        }).then( () =>{
-            axios.post('../api/chat/?user1=' + this.state.user1 + '&user2=' + this.state.user2 + '/').then(
+            axios.post('../api/chat/?user1=' + localStorage.getItem('user') + '&user2=' + username + '/').then(
             response => {
                 console.log(response);
             }
         );
-        }
-    );
     };
 
 
