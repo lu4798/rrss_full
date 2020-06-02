@@ -9,6 +9,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.scope['user'] = user
         #self.room_name = 'general'
         #self.room_group_name = 'chat_general'
+        print(self.scope['query_string'])
+        print(self.scope['url_route'])
+        print(self.scope['url_route']['kwargs'])
+        print(self.scope['url_route']['kwargs']['room_name'])
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat%s' % self.room_name
         print(self.channel_name)
