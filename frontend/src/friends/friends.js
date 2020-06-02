@@ -8,6 +8,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import axios from "axios";
+import Chat from "../Chat";
 
 
 
@@ -17,12 +18,17 @@ export default class FriendsCard extends Component{
         friendList : [],
         connected : [],
         disconnected : [],
+        room:[]
     };
 
     startChat =(username)=>{
             axios.post('../api/chat/?user1=' + localStorage.getItem('user') + '&user2=' + username).then(
             response => {
                 console.log(response);
+                this.setState({
+                    room: this.state.room.append(response)
+                });
+                console.log(this.state);
             }
         );
     };
@@ -32,23 +38,28 @@ export default class FriendsCard extends Component{
     {
         return(
             <Container>
-                <Card className='card'>
+                <div className="row">
+                    <Card className='card'>
 
-                    <CardContent>
-                        <h3>Amigos</h3>
-                        <List component="nav">
-                            {this.props.friendList.map( (friend) => {return(<ListItem button onClick={() => this.startChat(friend.userr)}     >
+                        <CardContent>
+                            <h3>Amigos</h3>
+                            <List component="nav">
+                                {this.props.friendList.map( (friend) => {return(<ListItem button onClick={() => this.startChat(friend.userr)}     >
 
-                                <ListItemAvatar >
-                                    <Avatar
-                                        src={friend.user_photo}
-                                    />
-                                </ListItemAvatar>
-                                <ListItemText primary={friend.userr}  />
-                            </ListItem >)})}
-                        </List>
-                    </CardContent>
-                </Card>
+                                    <ListItemAvatar >
+                                        <Avatar
+                                            src={friend.user_photo}
+                                        />
+                                    </ListItemAvatar>
+                                    <ListItemText primary={friend.userr}  />
+                                </ListItem >)})}
+                            </List>
+                        </CardContent>
+                    </Card>
+                </div>
+                <div className="row">
+                    {this.state.room.map((room) => { return  <Chat  data={room}/>})}
+                    </div>
             </Container>
         )
     }

@@ -145,12 +145,12 @@ class ChatViewSet(viewsets.ModelViewSet):
         user2 = User.objects.get(username=self.request.query_params.get('user2', None))
 
         try:
-            Chat.objects.get(user1=user1, user2=user2)
-            return HttpResponse("Chat ya estaba creado")
+            serialized_data = self.get_serializer(Chat.objects.get(user1=user1, user2=user2)).data
+            return HttpResponse(serialized_data)
         except:
             try:
-                Chat.objects.get(user1=user2, user2=user1)
-                return HttpResponse("Chat ya estaba creado")
+                serialized_data = self.get_serializer(Chat.objects.get(user1=user2, user2=user1)).data
+                return HttpResponse(serialized_data)
             except:
                 c = Chat.objects.create(
                     user1=user1,

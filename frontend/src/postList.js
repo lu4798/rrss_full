@@ -132,9 +132,6 @@ render () {
                     <div className="row">
                         <FriendsCard friendList={this.state.friendList}/>
                     </div>
-                    <div className="row">
-                        <Chat/>
-                    </div>
                 </div>
         </div>
     );
