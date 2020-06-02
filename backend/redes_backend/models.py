@@ -30,7 +30,7 @@ class User(AbstractUser):
 
 class Messages(models.Model):
     user = models.CharField(max_length=100, blank=True)
-    message = models.CharField(blank=True)
+    message = models.CharField(max_length=1024, blank=True)
 
     def __str__(self):
         return f'{self.user}:{self.message}'
