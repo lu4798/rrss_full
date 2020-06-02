@@ -37,8 +37,8 @@ class Messages(models.Model):
 
 
 class Chat(models.Model):
-    user1 = models.ForeignKey(User, on_delete=models.CASCADE)
-    user2 = models.ForeignKey(User, on_delete=models.CASCADE)
+    user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user1')
+    user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user2')
     messages = models.ManyToManyField(Messages, null=True)
 
     def __str__(self):
