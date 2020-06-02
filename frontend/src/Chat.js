@@ -61,7 +61,7 @@ class Chat extends Component {
             <Container style={{float: "right", borderColor: "#538c09"}}>
                 <Card className='card'>
                      <CardContent>
-                         <h3>{this.props.user2} - {this.props.user1}</h3>
+                         <h3>{this.props.data.user2.username} - {this.props.data.user1.username}</h3>
 
                     <CardContent className='chat'>
 
