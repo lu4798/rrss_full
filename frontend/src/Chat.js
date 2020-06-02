@@ -15,18 +15,18 @@ import CardPost from "./card";
 
 class Chat extends Component {
 
+    ws = new WebSocket('ws://' + window.location.hostname +'/ws/chat/?room_name=' + this.props.data.id +'/');
 
-    ws = new WebSocket('ws://' + window.location.hostname +'/ws/chat/');
     state = {
         data : '',
         friendList : [],
         connected : [],
         disconnected : [],
         messages: [],
-        room_id:[]
     };
 
     componentDidMount() {
+
         console.log(this.props.data);
         console.log(this.ws);
         this.ws.onopen = () => {
@@ -61,7 +61,7 @@ class Chat extends Component {
             <Container style={{float: "right", borderColor: "#538c09"}}>
                 <Card className='card'>
                      <CardContent>
-                         <h3>{this.props.data.user2.username} - {this.props.data.user1.username}</h3>
+                         <h4>{this.props.data.user2.username} - {this.props.data.user1.username}</h4>
 
                     <CardContent className='chat'>
 
