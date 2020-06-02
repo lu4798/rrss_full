@@ -23,14 +23,6 @@ export default class FriendsCard extends Component {
                 console.log("@@", response);
                 if (response.data !== "NO") {
                     console.log(response);
-                    this.setState({
-                        room: this.state.room.push(
-                            {
-                                id: response.data.id,
-                                user1: response.data.user1,
-                                user2: response.data.user2,
-                            })
-                    });
                     console.log(this.state);
                     window.location.reload();
                 }
