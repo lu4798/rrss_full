@@ -15,7 +15,7 @@ import CardPost from "./card";
 
 class Chat extends Component {
 
-    ws = new WebSocket('ws://' + window.location.hostname +'/ws/chat/' + this.props.data.id);
+    ws = new WebSocket('ws://' + window.location.hostname +'/ws/chat/?room_name=' + this.props.data.id);
 
     state = {
         data : '',
