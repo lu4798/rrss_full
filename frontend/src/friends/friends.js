@@ -65,7 +65,7 @@ export default class FriendsCard extends Component {
         return (
             <Container>
                 <div className="row">
-                    <Card className='card'>
+                    <Card className='card friends'>
                         <CardContent>
                             <h3>Amigos</h3>
                             <List component="nav">

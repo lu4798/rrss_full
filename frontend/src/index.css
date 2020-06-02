@@ -143,6 +143,10 @@ body, html, .App, #root, .auth-wrapper {
   text-align: end !important;
 
 }
+
+.friends {
+  width: 100%;
+}
 .bubble-right p{
   padding: 0;
   margin: 0;
