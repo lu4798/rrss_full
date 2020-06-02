@@ -25,12 +25,14 @@ export default class FriendsCard extends Component{
         this.setState({
             user1: localStorage.getItem('user'),
             user2: username
-        });
-        axios.post('../api/chat/?user1=' + this.state.user1 + '&user2=' + this.state.user2 + '/').then(
+        }).then( () =>{
+            axios.post('../api/chat/?user1=' + this.state.user1 + '&user2=' + this.state.user2 + '/').then(
             response => {
                 console.log(response);
             }
         );
+        }
+    );
     };
 
 
