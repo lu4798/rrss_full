@@ -31,7 +31,7 @@ export default class CardPost extends Component {
 
     shareOnTwitter  = () => {
         //window.open("http://www.google.com", 'popup-example');
-        window.open('https://twitter.com/intent/tweet?button_hashtag=cuarentena&text=Hey!%20Check%20this%20post%20on%20Cuarentena&url=http://www.google.com','popup','width=600,height=600');
+        window.open('https://twitter.com/intent/tweet?button_hashtag=cuarentena&text=Hey!%20Check%20this%20post%20on%20Cuarentena&url= http://178.62.227.227/posts/' + this.props.data.username,'popup','width=600,height=600');
         return false;
     };
 

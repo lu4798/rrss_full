@@ -15,13 +15,13 @@ import CardPost from "./card";
 
 class Chat extends Component {
 
-    ws = new WebSocket('ws://' + window.location.hostname +'/ws/chat/?room_name=' + this.props.data.id);
+    ws = new WebSocket('ws://' + window.location.hostname + '/ws/chat/?room_name=' + this.props.data.id);
 
     state = {
-        data : '',
-        friendList : [],
-        connected : [],
-        disconnected : [],
+        data: '',
+        friendList: [],
+        connected: [],
+        disconnected: [],
         messages: [],
     };
 
@@ -32,7 +32,7 @@ class Chat extends Component {
         this.ws.onopen = () => {
             console.log("Conectado al chat");
             this.sendMessage("Se ha conectado al chat");
-             //this.ws.send("{target: 1234}")
+            //this.ws.send("{target: 1234}")
         };
 
 
@@ -51,34 +51,35 @@ class Chat extends Component {
             this.sendMessage("Se ha desconectado del chat");
         };
     }
+
     sendMessage = (msg) => {
         this.ws.send(msg)
     };
 
 
-    render(){
-        return(
-            <Container style={{float: "right", borderColor: "#538c09"}}>
-                <Card className='card'>
-                     <CardContent>
-                         <h4>{this.props.data.user2.username} - {this.props.data.user1.username}</h4>
+    render() {
+        return (
+            <Card className='card'>
+                <CardContent>
+                    <h4>{this.props.data.user2.username} - {this.props.data.user1.username}</h4>
 
                     <CardContent className='chat'>
 
-                       {this.state.messages.map((m, i) => {
-                           return(<ChatBubble data={m}/>)
+                        {this.state.messages.map((m, i) => {
+                            return (<ChatBubble data={m}/>)
                         })
-                       }
-                       <div id = "div_end"/>
+                        }
+                        <div id="div_end"/>
 
                     </CardContent>
-                     <ChatInput onSendMessage={(msg) =>this.sendMessage(msg)}/>
-                      </CardContent>
-                </Card>
-            </Container>
+                    <ChatInput onSendMessage={(msg) => this.sendMessage(msg)}/>
+                </CardContent>
+            </Card>
         );
 
     }
-} export default Chat;
+}
+
+export default Chat;
 
 
