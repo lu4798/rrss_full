@@ -153,6 +153,8 @@ body, html, .App, #root, .auth-wrapper {
 
 .friends {
   width: 100%;
+  max-height: 300px;
+  overflow-y: scroll;
 }
 .bubble-right p{
   padding: 0;
