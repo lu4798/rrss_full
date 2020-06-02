@@ -11,6 +11,11 @@ import default_photo from "./assets/logocute.png";
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import Container from "@material-ui/core/Container";
 import CardPost from "./card";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import IconButton from "@material-ui/core/IconButton";
+import Collapse from "@material-ui/core/Collapse";
+import CommentList from "./CommentList";
+import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 
 
 class Chat extends Component {
@@ -19,9 +24,7 @@ class Chat extends Component {
 
     state = {
         data: '',
-        friendList: [],
-        connected: [],
-        disconnected: [],
+        expanded: false,
         messages: [],
     };
 
@@ -59,20 +62,27 @@ class Chat extends Component {
 
     render() {
         return (
-            <Card className='card'>
+            <Card className='card friends'>
                 <CardContent>
                     <h4>{this.props.data.user2.username} - {this.props.data.user1.username}</h4>
+                    <IconButton  aria-label="comment"  className="icon" onClick={() =>this.setState({ expanded: !this.state.expanded })}>
+                        <ExpandMoreIcon/>
+                    </IconButton>
 
-                    <CardContent className='chat'>
+                    <Collapse in={this.state.expanded} timeout="auto" unmountOnExit className="expanded">
 
-                        {this.state.messages.map((m, i) => {
-                            return (<ChatBubble data={m}/>)
-                        })
-                        }
-                        <div id="div_end"/>
+                        <CardContent className='chat'>
 
-                    </CardContent>
-                    <ChatInput onSendMessage={(msg) => this.sendMessage(msg)}/>
+                            {this.state.messages.map((m, i) => {
+                                return (<ChatBubble data={m}/>)
+                            })
+                            }
+                            <div id="div_end"/>
+
+                        </CardContent>
+                        <ChatInput onSendMessage={(msg) => this.sendMessage(msg)}/>
+                    </Collapse>
+
                 </CardContent>
             </Card>
         );
