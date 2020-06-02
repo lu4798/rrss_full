@@ -137,9 +137,13 @@ class ChatViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         print(request.data)
+        print(self.request.query_params)
+
 
         user1 = User.objects.get(username=self.request.query_params.get('user1', None))
         user2 = User.objects.get(username=self.request.query_params.get('user2', None))
+
+
 
         if Chat.objects.get(user1=user1, user2=user2) or Chat.objects.get(user1=user2, user2=user1):
             return HttpResponse("Chat ya estaba creado")
