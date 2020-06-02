@@ -155,6 +155,10 @@ body, html, .App, #root, .auth-wrapper {
   width: 100%;
 
 }
+
+.friends h3{
+ margin: 5%;
+}
 .friendy {
     max-height: 300px;
   overflow-y: scroll;
