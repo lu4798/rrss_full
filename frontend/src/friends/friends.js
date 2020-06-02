@@ -42,14 +42,14 @@ export default class FriendsCard extends Component{
                     <CardContent>
                         <h3>Amigos</h3>
                         <List component="nav">
-                            {this.props.friendList.map( (friend) => {return(<ListItem button>
+                            {this.props.friendList.map( (friend) => {return(<ListItem button onClick={this.startChat(friend.userr)}>
                                 <ListItemAvatar >
                                     <Avatar
                                         src={friend.user_photo}
                                     />
                                 </ListItemAvatar>
-                                <ListItemText primary={friend.userr} onClick={this.startChat(friend.userr)} />
-                            </ListItem>)})}
+                                <ListItemText primary={friend.userr}  />
+                            </ListItem >)})}
                         </List>
                     </CardContent>
                 </Card>
