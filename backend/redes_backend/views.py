@@ -13,7 +13,7 @@ from rest_framework.permissions import AllowAny
 
 from rest_framework.response import Response
 
-from .serializers import CommentSerializer, PostSerializer, UserSerializer, FriendSerializer
+from .serializers import CommentSerializer, PostSerializer, UserSerializer, FriendSerializer, ChatSerializer
 from .models import *
 from rest_framework_jwt.settings import api_settings
 from rest_framework import serializers
@@ -129,6 +129,42 @@ class FriendViewSet(viewsets.ModelViewSet):
     #    for post in query:
     #        if post.user.id == id:
     #            return Response(self.get_serializer(post).data)
+
+
+class ChatViewSet(viewsets.ModelViewSet):
+    queryset = Chat.objects.all()
+    serializer_class = ChatSerializer
+
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+
+        if Chat.objects.filter(user1__username=request.data['user1'], user2__username=request.data['user2']) or Chat.objects.filter(user1__username=request.data['user2'], user2__username=request.data['user1']):
+            return HttpResponse("Chat ya estaba creado")
+        else:
+            user2 = User.objects.filter(username=request.data['user2'])
+            c = Chat.objects.create(
+                user1=request.data['user1'],
+                user2=user2
+            )
+            serialized_data = self.get_serializer(c).data
+            return HttpResponse(serialized_data)
+
+    def retrieve(self, request, *args, **kwargs):
+        serializer = ChatSerializer(request.user)
+        return HttpResponse(serializer.data)
+
+    def get_queryset(self):
+        user1 = self.request.query_params.get('user1', None)
+        user2 = self.request.query_params.get('user2', None)
+
+        if user1 and user2:
+            try:
+                return Chat.objects.filter(user1__username=user1, user2__username=user2)
+            except:
+                return Chat.objects.filter(user1__username=user2, user2__username=user1)
+        else:
+            return User.objects.all()
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()

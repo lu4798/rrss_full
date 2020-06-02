@@ -15,9 +15,22 @@ export default class FriendsCard extends Component{
         data : '',
         friendList : [],
         connected : [],
-        disconnected : []
+        disconnected : [],
+        user1: '',
+        user2:'',
     };
 
+    startChat =(username)=>{
+        this.setState({
+            user1: localStorage.getItem('user'),
+            user2: username
+        });
+        axios.post('../api/chat/?user1=' + this.state.user1 + '&user2=' + this.state.user2 + '/').then(
+            response => {
+                console.log(response);
+            }
+        );
+    };
 
 
     render()
@@ -35,7 +48,7 @@ export default class FriendsCard extends Component{
                                         src={friend.user_photo}
                                     />
                                 </ListItemAvatar>
-                                <ListItemText primary={friend.userr} />
+                                <ListItemText primary={friend.userr} onClick={this.startChat(friend.userr)} />
                             </ListItem>)})}
                         </List>
                     </CardContent>

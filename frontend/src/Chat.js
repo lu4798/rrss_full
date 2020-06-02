@@ -16,13 +16,14 @@ import CardPost from "./card";
 class Chat extends Component {
 
 
-    ws = new WebSocket('ws://' + window.location.hostname +'/ws/chat/');
+    ws = new WebSocket('ws://' + window.location.hostname +'/ws/chat/'  + this.state.room_id + '/');
     state = {
         data : '',
         friendList : [],
         connected : [],
         disconnected : [],
-        messages: []
+        messages: [],
+        room_id:[]
     };
 
     componentDidMount() {
@@ -46,6 +47,7 @@ class Chat extends Component {
 
         this.ws.onclose = () => {
             console.log("Desconectado");
+            this.sendMessage("Se ha desconectado del chat");
         };
     }
     sendMessage = (msg) => {

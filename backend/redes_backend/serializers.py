@@ -7,9 +7,11 @@ from rest_framework_jwt.settings import api_settings
 
 class UserTokenSerializer(HyperlinkedModelSerializer):
     token = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ['username','token']
+        fields = ['username', 'token']
+
     def get_token(self, obj):
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -18,12 +20,12 @@ class UserTokenSerializer(HyperlinkedModelSerializer):
         return token
 
 
-
 class FriendSerializer(HyperlinkedModelSerializer):
     user_photo = serializers.ImageField()
+
     class Meta:
         model = Friend
-        fields = ['userr', 'friendship','user_photo']
+        fields = ['userr', 'friendship', 'user_photo']
 
 
 class UserSerializer(HyperlinkedModelSerializer):
@@ -48,6 +50,22 @@ class UserSerializer(HyperlinkedModelSerializer):
         return token
 
 
+class MessagesSerializer(HyperlinkedModelSerializer):
+    class Meta:
+        model = Messages
+        fields = ['user', 'message']
+
+
+class ChatSerializer(HyperlinkedModelSerializer):
+    user1 = UserSerializer()
+    user2 = UserSerializer()
+    messages = MessagesSerializer(many=True)
+
+    class Meta:
+        model = Messages
+        fields = ['user1', 'user2', 'messages']
+
+
 class PostSerializer(HyperlinkedModelSerializer):
     user = UserSerializer()
     date = serializers.DateTimeField('%d-%m-%Y %H:%M:%S')
@@ -68,6 +86,3 @@ class CommentSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Comment
         fields = ['user', 'date', 'content', 'likes', 'post', 'id']
-
-
-

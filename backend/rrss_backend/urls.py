@@ -28,6 +28,9 @@ router.register(r'posts', PostViewSet, basename='Post')
 router.register(r'comments', CommentViewSet, basename='Comment')
 router.register(r'users', UserViewSet, basename='User' ) #
 router.register(r'friends', FriendViewSet)
+router.register(r'chat', ChatViewSet)
+
+
 
 
 urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [

@@ -4,12 +4,13 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class Friend(models.Model):
-    userr = models.CharField(max_length=100,blank=True)
+    userr = models.CharField(max_length=100, blank=True)
     friendship = models.BooleanField(default=False)
-    user_photo = models.ImageField(upload_to='media',default="default_profile.png")
+    user_photo = models.ImageField(upload_to='media', default="default_profile.png")
 
     def __str__(self):
         return f'{self.userr}:{self.friendship}'
+
 
 class User(AbstractUser):
     # username = models.CharField(max_length=100)
@@ -24,7 +25,24 @@ class User(AbstractUser):
     friends = models.ManyToManyField(Friend, null=True)
 
     def str(self):
-        return f'{self.username}: {self.password},{self.email},{self.name},{self.description},{self.banner_photo},{self.friends}'
+        return f'{self.username}: {self.password},{self.email},{self.name},{self.description},{self.banner_photo},{self.friends} '
+
+
+class Messages(models.Model):
+    user = models.CharField(max_length=100, blank=True)
+    message = models.CharField(blank=True)
+
+    def __str__(self):
+        return f'{self.user}:{self.message}'
+
+
+class Chat(models.Model):
+    user1 = models.ForeignKey(User, on_delete=models.CASCADE)
+    user2 = models.ForeignKey(User, on_delete=models.CASCADE)
+    messages = models.ManyToManyField(Messages, null=True)
+
+    def __str__(self):
+        return f'{self.user1}:{self.user2}, {self.messages}'
 
 
 class Post(models.Model):
@@ -48,7 +66,5 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.user}:{self.content},{self.date},{self.likes}'
-
-
 
 # FALTA AMIGOS QUE NO SE COMO HACERLO TODAVIA
