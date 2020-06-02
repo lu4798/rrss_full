@@ -70,7 +70,7 @@ export default class FriendsCard extends Component{
                     </Card>
                 </div>
                 <div className="row">
-                    {this.state.room.map((room) => { return  <Chat  data={room}/>})}
+                    return {this.state.room.data.map((room) => { return  <Chat  data={room}/>})}
                     </div>
             </Container>
         )
