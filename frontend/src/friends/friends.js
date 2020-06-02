@@ -26,7 +26,12 @@ export default class FriendsCard extends Component{
             response => {
                 console.log(response);
                 this.setState({
-                    room: this.state.room.push(response)
+                    room: this.state.room.push(
+                        {
+                            id: response.data.id,
+                            user1: response.data.user1,
+                            user2: response.data.user2,
+                        })
                 });
                 console.log(this.state);
             }
@@ -36,9 +41,19 @@ export default class FriendsCard extends Component{
     componentDidMount() {
         axios.get('../api/chat/').then (
             response => {
-                 console.log(response);
+                let aux =[];
+                for (let i of response){
+                    aux.push(
+                         {
+                            id: i.data.id,
+                            user1: i.data.user1,
+                            user2: i.data.user2,
+                        }
+                    )
+                }
+                console.log(response);
                 this.setState({
-                    room: this.state.room.push(response)
+                    room: aux
                 });
                 console.log(this.state);
             }
@@ -70,7 +85,7 @@ export default class FriendsCard extends Component{
                     </Card>
                 </div>
                 <div className="row">
-                    {this.state.room.data.map((room) => { return  <Chat  data={room}/>})}
+                    {this.state.room.map((room) => { return  <Chat  data={room}/>})}
                     </div>
             </Container>
         )
