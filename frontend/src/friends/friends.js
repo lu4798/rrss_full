@@ -24,7 +24,7 @@ export default class FriendsCard extends Component {
         axios.post('../api/chat/?user1=' + localStorage.getItem('user') + '&user2=' + username).then(
             response => {
                  console.log("@@", response);
-                if (response.data !== "400") {
+                if (response.data !== "NO") {
                     console.log(response);
                     this.setState({
                         room: this.state.room.push(
