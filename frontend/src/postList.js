@@ -129,9 +129,7 @@ render () {
                 </div>
 
                 <div className="col-3 col-sm-3 col-lg-3">
-                    <div className="row">
-                        <FriendsCard friendList={this.state.friendList}/>
-                    </div>
+                    <FriendsCard friendList={this.state.friendList}/>
                 </div>
         </div>
     );

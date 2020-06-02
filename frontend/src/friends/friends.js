@@ -11,40 +11,42 @@ import axios from "axios";
 import Chat from "../Chat";
 
 
-
-export default class FriendsCard extends Component{
+export default class FriendsCard extends Component {
     state = {
-        data : '',
-        friendList : [],
-        connected : [],
-        disconnected : [],
-        room:[]
+        data: '',
+        friendList: [],
+        connected: [],
+        disconnected: [],
+        room: []
     };
 
-    startChat =(username)=>{
-            axios.post('../api/chat/?user1=' + localStorage.getItem('user') + '&user2=' + username).then(
+    startChat = (username) => {
+        axios.post('../api/chat/?user1=' + localStorage.getItem('user') + '&user2=' + username).then(
             response => {
-                console.log(response);
-                this.setState({
-                    room: this.state.room.push(
-                        {
-                            id: response.data.id,
-                            user1: response.data.user1,
-                            user2: response.data.user2,
-                        })
-                });
-                console.log(this.state);
+                if (response.data !== "400") {
+                    console.log(response);
+                    this.setState({
+                        room: this.state.room.push(
+                            {
+                                id: response.data.id,
+                                user1: response.data.user1,
+                                user2: response.data.user2,
+                            })
+                    });
+                    console.log(this.state);
+                }
+
             }
         );
     };
 
     componentDidMount() {
-        axios.get('../api/chat/').then (
+        axios.get('../api/chat/').then(
             response => {
-                let aux =[];
-                for (let i of response.data){
+                let aux = [];
+                for (let i of response.data) {
                     aux.push(
-                         {
+                        {
                             id: i.id,
                             user1: i.user1,
                             user2: i.user2,
@@ -61,32 +63,34 @@ export default class FriendsCard extends Component{
     }
 
 
-    render()
-    {
-        return(
+    render() {
+        return (
             <Container>
                 <div className="row">
                     <Card className='card'>
-
                         <CardContent>
                             <h3>Amigos</h3>
                             <List component="nav">
-                                {this.props.friendList.map( (friend) => {return(<ListItem button onClick={() => this.startChat(friend.userr)}     >
+                                {this.props.friendList.map((friend) => {
+                                    return (<ListItem button onClick={() => this.startChat(friend.userr)}>
 
-                                    <ListItemAvatar >
-                                        <Avatar
-                                            src={friend.user_photo}
-                                        />
-                                    </ListItemAvatar>
-                                    <ListItemText primary={friend.userr}  />
-                                </ListItem >)})}
+                                        <ListItemAvatar>
+                                            <Avatar
+                                                src={friend.user_photo}
+                                            />
+                                        </ListItemAvatar>
+                                        <ListItemText primary={friend.userr}/>
+                                    </ListItem>)
+                                })}
                             </List>
                         </CardContent>
                     </Card>
                 </div>
                 <div className="row">
-                    {this.state.room.map((room) => { return  <Chat  data={room}/>})}
-                    </div>
+                    {this.state.room.map((room) => {
+                        return <Chat data={room}/>
+                    })}
+                </div>
             </Container>
         )
     }

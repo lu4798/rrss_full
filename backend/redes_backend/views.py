@@ -146,11 +146,11 @@ class ChatViewSet(viewsets.ModelViewSet):
 
         try:
             serialized_data = self.get_serializer(Chat.objects.get(user1=user1, user2=user2)).data
-            return HttpResponse(serialized_data)
+            return HttpResponse("400")
         except:
             try:
                 serialized_data = self.get_serializer(Chat.objects.get(user1=user2, user2=user1)).data
-                return HttpResponse(serialized_data)
+                return HttpResponse("400")
             except:
                 c = Chat.objects.create(
                     user1=user1,
