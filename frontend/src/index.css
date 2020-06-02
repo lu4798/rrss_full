@@ -146,6 +146,7 @@ body, html, .App, #root, .auth-wrapper {
 
 .chaty h4{
   width: 70%;
+  margin-right: 15px;
 }
 
 .friends {
