@@ -42,7 +42,7 @@ export default class FriendsCard extends Component{
         axios.get('../api/chat/').then (
             response => {
                 let aux =[];
-                for (let i of response){
+                for (let i of response.data){
                     aux.push(
                          {
                             id: i.data.id,
