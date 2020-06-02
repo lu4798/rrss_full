@@ -98,6 +98,7 @@ class PostViewSet(viewsets.ModelViewSet):
         except Post.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+
 class FriendViewSet(viewsets.ModelViewSet):
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
@@ -112,6 +113,7 @@ class FriendViewSet(viewsets.ModelViewSet):
 
         serialized_data = self.get_serializer(f).data
         return HttpResponse(serialized_data)
+
     # queryset = Post.objects.all()
     # queryset = queryset.order_by('-date')
     '''def retrieve(self, request, *args, **kwargs):
@@ -139,22 +141,23 @@ class ChatViewSet(viewsets.ModelViewSet):
         print(request.data)
         print(self.request.query_params)
 
-
         user1 = User.objects.get(username=self.request.query_params.get('user1', None))
         user2 = User.objects.get(username=self.request.query_params.get('user2', None))
 
-
-
-        if Chat.objects.get(user1=user1, user2=user2) or Chat.objects.get(user1=user2, user2=user1):
+        try:
+            Chat.objects.get(user1=user1, user2=user2)
             return HttpResponse("Chat ya estaba creado")
-        else:
-
-            c = Chat.objects.create(
-                user1=user1,
-                user2=user2
-            )
-            serialized_data = self.get_serializer(c).data
-            return HttpResponse(serialized_data)
+        except:
+            try:
+                Chat.objects.get(user1=user2, user2=user1)
+                return HttpResponse("Chat ya estaba creado")
+            except:
+                c = Chat.objects.create(
+                    user1=user1,
+                    user2=user2
+                )
+                serialized_data = self.get_serializer(c).data
+                return HttpResponse(serialized_data)
 
     def retrieve(self, request, *args, **kwargs):
         serializer = ChatSerializer(request.user)
@@ -192,8 +195,7 @@ class UserViewSet(viewsets.ModelViewSet):
             password=make_password(request.data['password']),
             name=request.data['name']
         )
-        print("COMPLETE_USER",u)
-
+        print("COMPLETE_USER", u)
 
         serialized_data = self.get_serializer(u)
         print(serialized_data.data)
@@ -213,7 +215,7 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = UserSerializer(request.user)
         return HttpResponse(serializer.data)
 
-    #Cambiarlo para que sea un poquito mas seguro
+    # Cambiarlo para que sea un poquito mas seguro
     def put(self, request):
         print(self.request.query_params)
         user_id = self.request.query_params.get('user', None)
@@ -221,14 +223,14 @@ class UserViewSet(viewsets.ModelViewSet):
 
         if friend != None:
             if friend == "add_friend":
-                f = Friend.objects.filter(userr=request.data['friend'],friendship=False)
+                f = Friend.objects.filter(userr=request.data['friend'], friendship=False)
                 u = User.objects.get(username=user_id)
                 u.friends.add(f[0])
                 u.save()
             if friend == "refuse_friend":
-                print(user_id,request.data['friend'])
+                print(user_id, request.data['friend'])
                 u = User.objects.get(username=user_id)
-                f = Friend.objects.get(userr=request.data['friend'],friendship=False)
+                f = Friend.objects.get(userr=request.data['friend'], friendship=False)
                 u.friends.remove(f)
             if friend == "accept_friend":
                 u = User.objects.get(username=user_id)
@@ -282,5 +284,3 @@ class UserViewSet(viewsets.ModelViewSet):
             return User.objects.filter(username=user_id)
         else:
             return User.objects.all()
-
-
