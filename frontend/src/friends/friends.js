@@ -45,9 +45,9 @@ export default class FriendsCard extends Component{
                 for (let i of response.data){
                     aux.push(
                          {
-                            id: i.data.id,
-                            user1: i.data.user1,
-                            user2: i.data.user2,
+                            id: i.id,
+                            user1: i.user1,
+                            user2: i.user2,
                         }
                     )
                 }
