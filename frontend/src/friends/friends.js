@@ -20,7 +20,7 @@ export default class FriendsCard extends Component{
     };
 
     startChat =(username)=>{
-            axios.post('../api/chat/?user1=' + localStorage.getItem('user') + '&user2=' + username + '/').then(
+            axios.post('../api/chat/?user1=' + localStorage.getItem('user') + '&user2=' + username).then(
             response => {
                 console.log(response);
             }
