@@ -141,9 +141,10 @@ class ChatViewSet(viewsets.ModelViewSet):
         if Chat.objects.filter(user1__username=request.data['user1'], user2__username=request.data['user2']) or Chat.objects.filter(user1__username=request.data['user2'], user2__username=request.data['user1']):
             return HttpResponse("Chat ya estaba creado")
         else:
+            user1 = User.objects.filter(username=request.data['user1'])
             user2 = User.objects.filter(username=request.data['user2'])
             c = Chat.objects.create(
-                user1=request.data['user1'],
+                user1=user1,
                 user2=user2
             )
             serialized_data = self.get_serializer(c).data
