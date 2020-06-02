@@ -27,6 +27,7 @@ class Chat extends Component {
     };
 
     componentDidMount() {
+        console.log(this.props.data);
         console.log(this.ws);
         this.ws.onopen = () => {
             console.log("Conectado al chat");
@@ -60,7 +61,7 @@ class Chat extends Component {
             <Container style={{float: "right", borderColor: "#538c09"}}>
                 <Card className='card'>
                      <CardContent>
-                         <h3>{this.props.data.user2} - {this.props.data.user1} </h3>
+                         <h3>{this.props.user2} - {this.props.user1}</h3>
 
                     <CardContent className='chat'>
 
