@@ -61,8 +61,8 @@ export default class FriendsCard extends Component {
             <Container>
                 <div className="row">
                     <Card className='card friends'>
-                        <CardContent>
-                            <h3>Amigos</h3>
+                          <h3>Amigos</h3>
+                        <CardContent className='friendy'>
                             <List component="nav">
                                 {this.props.friendList.map((friend) => {
                                     return (<ListItem button onClick={() => this.startChat(friend.userr)}>
