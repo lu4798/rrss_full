@@ -22,7 +22,7 @@ class ChatInput extends Component {
                     value ={this.state.message}
                     onChange={e => this.setState({message: e.target.value})}
                 />
-                <input type="submit"  className="btn-principal" value="Enviar" />
+                <input type="submit"  className="btn btn-primary btn-principal" value="Enviar" />
             </form>
         );
     }
