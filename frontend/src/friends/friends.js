@@ -20,7 +20,7 @@ export default class FriendsCard extends Component {
     startChat = (username) => {
         axios.post('../api/chat/?user1=' + localStorage.getItem('user') + '&user2=' + username).then(
             response => {
-                 console.log("@@", response);
+                console.log("@@", response);
                 if (response.data !== "NO") {
                     console.log(response);
                     this.setState({
@@ -32,10 +32,12 @@ export default class FriendsCard extends Component {
                             })
                     });
                     console.log(this.state);
+                    window.location.reload();
                 }
 
             }
         );
+
     };
 
     componentDidMount() {
@@ -58,7 +60,7 @@ export default class FriendsCard extends Component {
                 console.log(this.state);
             }
         );
-        window.location.reload();
+
     }
 
 
