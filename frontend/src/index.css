@@ -146,8 +146,8 @@ body, html, .App, #root, .auth-wrapper {
 
 .chaty h4{
   width: 70%;
- margin-right: 3%;
-  margin-left: 3%;
+  margin-right: 0%;
+  margin-left: 5%;
 
 }
 

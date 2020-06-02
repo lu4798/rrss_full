@@ -58,6 +58,7 @@ export default class FriendsCard extends Component {
                 console.log(this.state);
             }
         );
+        window.location.reload();
     }
 
 
