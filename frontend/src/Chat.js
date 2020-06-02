@@ -64,7 +64,7 @@ class Chat extends Component {
         return (
             <Card className='card friends'>
                 <CardContent>
-                    <div>
+                    <div className='flex-row'>
                         <h4>{this.props.data.user2.username} - {this.props.data.user1.username}</h4>
                         <IconButton aria-label="comment" className="icon"
                                     onClick={() => this.setState({expanded: !this.state.expanded})}>
