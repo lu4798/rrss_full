@@ -63,7 +63,7 @@ class ChatSerializer(HyperlinkedModelSerializer):
 
     class Meta:
         model = Messages
-        fields = ['user1', 'user2', 'messages']
+        fields = ['user1', 'user2', 'messages', 'id']
 
 
 class PostSerializer(HyperlinkedModelSerializer):

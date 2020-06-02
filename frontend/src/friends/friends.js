@@ -14,9 +14,6 @@ import Chat from "../Chat";
 export default class FriendsCard extends Component {
     state = {
         data: '',
-        friendList: [],
-        connected: [],
-        disconnected: [],
         room: []
     };
 
