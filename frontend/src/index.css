@@ -244,6 +244,10 @@ body, html, .App, #root, .auth-wrapper {
 
  }
 
+ .form-group{
+   width: 100%;
+ }
+
  .profile-root  {
    background-color:#ffffff;
    border-radius: 15px;
