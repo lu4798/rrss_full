@@ -164,7 +164,7 @@ class ChatViewSet(viewsets.ModelViewSet):
             except:
                 return Chat.objects.filter(user1__username=user2, user2__username=user1)
         else:
-            return User.objects.all()
+            return Chat.objects.all()
 
 
 class UserViewSet(viewsets.ModelViewSet):
