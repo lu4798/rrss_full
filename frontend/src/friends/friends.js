@@ -26,12 +26,24 @@ export default class FriendsCard extends Component{
             response => {
                 console.log(response);
                 this.setState({
-                    room: this.state.room.append(response)
+                    room: this.state.room.push(response)
                 });
                 console.log(this.state);
             }
         );
     };
+
+    componentDidMount() {
+        axios.get('../api/chat/').then (
+            response => {
+                 console.log(response);
+                this.setState({
+                    room: this.state.room.push(response)
+                });
+                console.log(this.state);
+            }
+        );
+    }
 
 
     render()
