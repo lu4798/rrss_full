@@ -23,6 +23,7 @@ export default class FriendsCard extends Component {
     startChat = (username) => {
         axios.post('../api/chat/?user1=' + localStorage.getItem('user') + '&user2=' + username).then(
             response => {
+                 console.log("@@", response);
                 if (response.data !== "400") {
                     console.log(response);
                     this.setState({
@@ -86,9 +87,10 @@ export default class FriendsCard extends Component {
                         </CardContent>
                     </Card>
                 </div>
+
                 <div className="row">
-                    {this.state.room.map((room) => {
-                        return <Chat data={room}/>
+                    {this.state.room.map((room, index) => {
+                        return <Chat key={index} data={room}/>
                     })}
                 </div>
             </Container>
