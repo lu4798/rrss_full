@@ -212,16 +212,6 @@ export default class ProfileCard extends Component {
                                         {this.state.description}
                                     </Typography>
                                 }
-                                {this.state.editable === true
-                                    ? <IconButton className="icon icon-image fileContainer" aria-label="follow">
-                                        <input type="file"
-                                               id="image"
-                                               accept="image/png, image/jpeg" onChange={this.handleBannerPhoto}/>
-                                        <InsertPhotoIcon/>
-
-
-                                    </IconButton>
-                                    : <div/>}
                             </div>
                         </div>
                     </CardContent>
