@@ -1,30 +1,26 @@
-from os import link
+
 
 from django.contrib.auth.hashers import make_password
 from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
-import os
+
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
-# Create your views here.
 from rest_framework import viewsets, status
-from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 
 from rest_framework.response import Response
 
 from .serializers import CommentSerializer, PostSerializer, UserSerializer, FriendSerializer, ChatSerializer
 from .models import *
-from rest_framework_jwt.settings import api_settings
-from rest_framework import serializers
+
 
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
+
         c = Comment.objects.create(
             content=request.data['content'],
             user=User.objects.filter(username=request.data['user'])[0],
@@ -35,7 +31,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         post = self.request.query_params.get('post', None)
-        print(post)
+
         if post:
             return Comment.objects.filter(post=post)
         else:
@@ -60,7 +56,7 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
+
         try:
             p = Post.objects.create(
                 title=request.data['title'],
@@ -79,7 +75,6 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         username = self.request.query_params.get('user', None)
-        print(username)
         if username:
             return Post.objects.filter(user__username=username).order_by('-date')
         else:
@@ -105,7 +100,6 @@ class FriendViewSet(viewsets.ModelViewSet):
     serializer_class = FriendSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         f = Friend.objects.create(
             userr=request.data['user'],
             user_photo=request.data['image'],
@@ -139,8 +133,6 @@ class ChatViewSet(viewsets.ModelViewSet):
     serializer_class = ChatSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
-        print(self.request.query_params)
 
         user1 = User.objects.get(username=self.request.query_params.get('user1', None))
         user2 = User.objects.get(username=self.request.query_params.get('user2', None))
@@ -194,16 +186,15 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)'''
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         u = User.objects.create(
             username=request.data['username'],
             password=make_password(request.data['password']),
             name=request.data['name']
         )
-        print("COMPLETE_USER", u)
+
 
         serialized_data = self.get_serializer(u)
-        print(serialized_data.data)
+
         f = Friend.objects.create(
             userr=serialized_data.data['username'],
             user_photo=serialized_data.data['banner_photo'].split('/')[-1],
@@ -222,7 +213,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     # Cambiarlo para que sea un poquito mas seguro
     def put(self, request):
-        print(self.request.query_params)
+
         user_id = self.request.query_params.get('user', None)
         friend = self.request.query_params.get('friendship', None)
 
@@ -233,7 +224,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 u.friends.add(f[0])
                 u.save()
             if friend == "refuse_friend":
-                print(user_id, request.data['friend'])
+
                 u = User.objects.get(username=user_id)
                 f = Friend.objects.get(userr=request.data['friend'], friendship=False)
                 u.friends.remove(f)
@@ -284,7 +275,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user_id = self.request.query_params.get('user', None)
-        print(user_id)
+
         if user_id:
             return User.objects.filter(username=user_id)
         else:

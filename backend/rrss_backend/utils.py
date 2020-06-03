@@ -55,11 +55,10 @@ class MyAuthMiddleWare:
         self.inner = inner
 
     def __call__(self, scope):
-        print("scope " ,scope)
         close_connections()
         user, jwt_value = JWTAuthFromScope().authenticate(scope)
         scope['user_task'] = user
-        print("scope 2: ", scope)
+        print("scope ", scope)
         return self.inner(scope)
 
 
