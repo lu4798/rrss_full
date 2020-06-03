@@ -158,6 +158,16 @@ export default class ProfileCard extends Component {
                 <Card className='card'>
                     <CardMedia className='profile-media'
                                image={this.state.banner_photo}
+                               {this.state.editable === true
+                                    ? <IconButton className="icon icon-image fileContainer" aria-label="follow">
+                                        <input type="file"
+                                               id="image"
+                                               accept="image/png, image/jpeg" onChange={this.handleBannerPhoto}/>
+                                        <InsertPhotoIcon/>
+
+
+                                    </IconButton>
+                                    : <div/>}
                     />
                     <CardContent>
                         <div className="row">
