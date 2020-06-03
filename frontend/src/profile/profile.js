@@ -217,9 +217,6 @@ export default class ProfileCard extends Component {
                         <IconButton aria-label="share" className="icon">
                             {this.state.editable}
                         </IconButton>
-                        <IconButton aria-label="share" className="icon">
-                            <QuestionAnswerIcon/>
-                        </IconButton>
                         <IconButton
                             className='icon'
                             onClick={this.handleExpandClick}
