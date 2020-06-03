@@ -23,6 +23,7 @@ import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import PersonAddDisabledIcon from "@material-ui/icons/PersonAddDisabled";
+
 export default class ProfileCard extends Component {
     state = {
         expanded: false,
@@ -30,7 +31,7 @@ export default class ProfileCard extends Component {
         description: '',
         profile_photo: null,
         banner_photo: null,
-        banner_replaced_photo:null,
+        banner_replaced_photo: null,
         youtube: '',
         instagram: '',
         twitter: '',
@@ -39,11 +40,11 @@ export default class ProfileCard extends Component {
         userInProfile: false,
         new_description: '',
         new_name: '',
-        new_yt:'',
-        new_insta:'',
-        new_twitter:'',
-        friends:[],
-        logged_user_profile_photo:null
+        new_yt: '',
+        new_insta: '',
+        new_twitter: '',
+        friends: [],
+        logged_user_profile_photo: null
     };
 
     handleExpandClick = () => {
@@ -59,9 +60,9 @@ export default class ProfileCard extends Component {
         form_data.append('insta', this.state.new_insta);
         form_data.append('twitter', this.state.new_twitter);
         form_data.append('description', this.state.new_description);
-        if(this.state.banner_replaced_photo != null)
-            form_data.append('banner_photo', this.state.banner_replaced_photo,this.state.banner_replaced_photo.name);
-        console.log("photo",this.state.banner_photo);
+        if (this.state.banner_replaced_photo != null)
+            form_data.append('banner_photo', this.state.banner_replaced_photo, this.state.banner_replaced_photo.name);
+        console.log("photo", this.state.banner_photo);
         let url = '../api/users/?user=' + this.props.username;
         axios.put(url, form_data, {
             headers: {
@@ -69,7 +70,7 @@ export default class ProfileCard extends Component {
             }
         })
             .then(res => {
-                console.log("caca",res.data);
+                console.log("caca", res.data);
                 window.location.reload();
             })
             .catch(err => console.log(err))
@@ -95,7 +96,6 @@ export default class ProfileCard extends Component {
     };
 
 
-
     componentDidMount() {
         this.setState({
             username: localStorage.getItem('user'),
@@ -119,56 +119,57 @@ export default class ProfileCard extends Component {
     logout() {
         localStorage.clear();
     }
-    delete_friend = () =>{
+
+    delete_friend = () => {
         //añadir al props username el campo de amigos a false
         let form_data = new FormData();
         form_data.append('friend', localStorage.getItem('user'));
-        axios.put('../api/users/?user=' + this.props.username + "&&friendship=delete_friend",form_data).then( r =>{
+        axios.put('../api/users/?user=' + this.props.username + "&&friendship=delete_friend", form_data).then(r => {
         })
     };
-    add_friend = () =>{
+    add_friend = () => {
         //añadir al props username el campo de amigos a false
         let form_data = new FormData();
 
 
         form_data.append('friend', localStorage.getItem('user'));
 
-        axios.put('../api/users/?user=' + this.props.username + "&&friendship=add_friend",form_data).then( r =>{
+        axios.put('../api/users/?user=' + this.props.username + "&&friendship=add_friend", form_data).then(r => {
         })
     };
-    isFriend = () =>{
-        if(this.props.username === localStorage.getItem("user"))
+    isFriend = () => {
+        if (this.props.username === localStorage.getItem("user"))
             return <div/>;
-        for(let friend of this.props.friends) {
+        for (let friend of this.props.friends) {
 
-            for(let x in friend){
+            for (let x in friend) {
                 if (friend[x]['userr'] === this.props.username && friend[x]['friendship'] === true)
-                    return <IconButton><PersonAddDisabledIcon onClick={this.delete_friend} /></IconButton>;
+                    return <IconButton><PersonAddDisabledIcon onClick={this.delete_friend}/></IconButton>;
                 else if (friend[x]['userr'] === this.props.username && friend[x]['friendship'] !== true)
                     return <div/>;
             }
 
         }
-        return <IconButton><PersonAddIcon onClick={this.add_friend} /></IconButton>;
+        return <IconButton><PersonAddIcon onClick={this.add_friend}/></IconButton>;
     };
 
     render() {
-         return (
+        return (
             <Container style={{float: "left", borderColor: "#538c09"}}>
                 <Card className='card'>
                     <CardMedia className='profile-media'
-                               image={this.state.banner_photo}
-                               {this.state.editable === true
-                                    ? <IconButton className="icon icon-image fileContainer" aria-label="follow">
-                                        <input type="file"
-                                               id="image"
-                                               accept="image/png, image/jpeg" onChange={this.handleBannerPhoto}/>
-                                        <InsertPhotoIcon/>
+                               image={this.state.banner_photo}/>
+                    {this.state.editable === true
+                        ? <IconButton className="icon icon-image fileContainer" aria-label="follow">
+                            <input type="file"
+                                   id="image"
+                                   accept="image/png, image/jpeg" onChange={this.handleBannerPhoto}/>
+                            <InsertPhotoIcon/>
 
 
-                                    </IconButton>
-                                    : <div/>}
-                    />
+                        </IconButton>
+                        : <div/>}
+
                     <CardContent>
                         <div className="row">
                             <div className="col-7">
@@ -251,7 +252,8 @@ export default class ProfileCard extends Component {
                             >
                                 {this.state.editable === true
                                     ? <Input value={this.state.new_twitter}
-                                             onChange={e => this.setState({new_twitter: e.target.value})} placeholder={"Twitter"} />
+                                             onChange={e => this.setState({new_twitter: e.target.value})}
+                                             placeholder={"Twitter"}/>
                                     : <IconButton aria-label="share" className={"twitter"} href={this.state.twitter}
                                                   target={"_blank"}>
                                         <TwitterIcon/>
@@ -259,7 +261,8 @@ export default class ProfileCard extends Component {
                                 }
                                 {this.state.editable === true
                                     ? <Input value={this.state.new_insta}
-                                             onChange={e => this.setState({new_insta: e.target.value})} placeholder={"Instagram"}/>
+                                             onChange={e => this.setState({new_insta: e.target.value})}
+                                             placeholder={"Instagram"}/>
                                     : <IconButton aria-label="share" className={"insta"} href={this.state.instagram}
                                                   target={"_blank"}>
                                         <InstagramIcon/>
@@ -267,7 +270,8 @@ export default class ProfileCard extends Component {
                                 }
                                 {this.state.editable === true
                                     ? <Input value={this.state.new_yt}
-                                             onChange={e => this.setState({new_yt: e.target.value})} placeholder={"Youtube"}/>
+                                             onChange={e => this.setState({new_yt: e.target.value})}
+                                             placeholder={"Youtube"}/>
                                     : <IconButton aria-label="share" className={"youtube"} href={this.state.youtube}
                                                   target={"_blank"}>
                                         <YouTubeIcon/>
