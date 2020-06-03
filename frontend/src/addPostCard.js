@@ -29,7 +29,6 @@ export default class AddPostCard extends Component {
             params: {
                 user: this.state.username
             }}).then( (r) => {
-                    console.log("postear",r.data);
                     this.setState({
                         user: r.data[0],
                         profile_photo: r.data[0]['banner_photo'],
@@ -66,7 +65,6 @@ export default class AddPostCard extends Component {
         form_data.append('title', this.state.title);
         form_data.append('content', this.state.content);
         form_data.append('user', this.state.user.username);
-        console.log("user",this.state.user);
         let url = '../api/posts/';
         axios.post(url, form_data, {
             headers: {

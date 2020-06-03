@@ -79,22 +79,7 @@ export default class ProfileCard extends Component {
             banner_replaced_photo: e.target.files[0]
         });
     };
-    /*edit = () => {
-        console.log(localStorage.getItem('user'));
 
-        console.log(this.state);
-
-        if(this.state.username === localStorage.getItem('user')){
-            console.log("puede editar");
-            this.setState({editable:<EditIcon/>});
-        }
-        else{
-            console.log("no puede editar");
-            //si no son amigos
-            this.setState({editable:<PersonAddIcon />});
-            //si son amigos
-        }
-    };*/
 
     editable = () => {
         console.log(this.state.editable);
@@ -112,15 +97,13 @@ export default class ProfileCard extends Component {
 
 
     componentDidMount() {
-
-        console.log(this.props.username);
         this.setState({
             username: localStorage.getItem('user'),
             userInProfile: this.state.username === localStorage.getItem('user')
         });
 
         axios.get('../api/users/?user=' + this.props.username).then((r) => {
-            console.log("datos", r.data);
+
             this.setState({
                 username: r.data[0]['username'],
                 name: r.data[0]['name'],
@@ -141,7 +124,6 @@ export default class ProfileCard extends Component {
         let form_data = new FormData();
         form_data.append('friend', localStorage.getItem('user'));
         axios.put('../api/users/?user=' + this.props.username + "&&friendship=delete_friend",form_data).then( r =>{
-            console.log(r);
         })
     };
     add_friend = () =>{
@@ -152,18 +134,14 @@ export default class ProfileCard extends Component {
         form_data.append('friend', localStorage.getItem('user'));
 
         axios.put('../api/users/?user=' + this.props.username + "&&friendship=add_friend",form_data).then( r =>{
-            console.log(r);
         })
     };
     isFriend = () =>{
-        console.log("AMIGOS",this.props.friends);
         if(this.props.username === localStorage.getItem("user"))
             return <div/>;
         for(let friend of this.props.friends) {
-            console.log(friend);
+
             for(let x in friend){
-                console.log(x);
-                console.log(friend['userr'], this.props.username);
                 if (friend[x]['userr'] === this.props.username && friend[x]['friendship'] === true)
                     return <IconButton><PersonAddDisabledIcon onClick={this.delete_friend} /></IconButton>;
                 else if (friend[x]['userr'] === this.props.username && friend[x]['friendship'] !== true)
@@ -175,9 +153,7 @@ export default class ProfileCard extends Component {
     };
 
     render() {
-        console.log(this.isFriend());
-
-        return (
+         return (
             <Container style={{float: "left", borderColor: "#538c09"}}>
                 <Card className='card'>
                     <CardMedia className='profile-media'

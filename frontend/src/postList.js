@@ -5,7 +5,7 @@ import AddPostCard from "./addPostCard"
 import ProfileCard from "./profile/profile";
 import axios from "axios";
 import FriendsCard from "./friends/friends";
-import Chat from "./Chat";
+
 import PetitionCard from "./PetitionCard";
 import Twitter from "./Twitter";
 
@@ -34,17 +34,9 @@ export default class PostList extends Component {
             }
         });
     };
-    /*sortByKey(array, key) {
-        return array.sort(function (a, b) {
-            var x = a[key];
-            var y = b[key];
-            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-        });
-    };*/
 
     componentDidMount() {
         axios.get('../api/users/?user=' + localStorage.getItem("user")).then((r) => {
-            console.log("datosCard", r.data);
             let aux = [];
             let aux2 = [];
             let aux3 = [];
@@ -61,7 +53,6 @@ export default class PostList extends Component {
                 friendGestor:aux3,
                 user_photo: r.data[0].banner_photo
             });
-            console.log("FOTOOO",this.state.user_photo)
         });
         let url;
         if (this.props.match.params.username){
@@ -97,7 +88,6 @@ export default class PostList extends Component {
     }
 
 render () {
-        console.log("PHOTO",this.state.user_photo);
         let user_search = this.props.match.params.username;
     return (
         <div className="post-list">
@@ -124,7 +114,7 @@ render () {
                             :<AddPostCard />
                         }
 
-                        {this.state.posts.map((post) => {return(<CardPost data={post} on_click_delete={this.onDelete}/>)})}
+                        {this.state.posts.map((post, index) => {return(<CardPost key = {index} data={post} on_click_delete={this.onDelete}/>)})}
                     </div>
                 </div>
 

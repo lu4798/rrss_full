@@ -20,7 +20,6 @@ export default class FriendsCard extends Component {
     startChat = (username) => {
         axios.post('../api/chat/?user1=' + localStorage.getItem('user') + '&user2=' + username).then(
             response => {
-                console.log("@@", response);
                 if (response.data !== "NO") {
                     console.log(response);
                     console.log(this.state);
@@ -45,11 +44,9 @@ export default class FriendsCard extends Component {
                         }
                     )
                 }
-                console.log(response);
                 this.setState({
                     room: aux
                 });
-                console.log(this.state);
             }
         );
 
@@ -64,8 +61,8 @@ export default class FriendsCard extends Component {
                           <h3>Amigos</h3>
                         <CardContent className='friendy'>
                             <List component="nav">
-                                {this.props.friendList.map((friend) => {
-                                    return (<ListItem button onClick={() => this.startChat(friend.userr)}>
+                                {this.props.friendList.map((friend, index) => {
+                                    return (<ListItem key = {index} button onClick={() => this.startChat(friend.userr)}>
 
                                         <ListItemAvatar>
                                             <Avatar

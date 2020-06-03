@@ -9,7 +9,6 @@ export default class AddComment extends Component {
         user:'',
     };
     componentDidMount() {
-        console.log("props", this.props);
         this.setState({username: localStorage.getItem('user')}, this.getProfile );
     };
 
@@ -19,7 +18,6 @@ export default class AddComment extends Component {
             params: {
                 user: this.state.username
             }}).then( (r) => {
-            console.log("postear",r.data);
             this.setState({
                 user: r.data[0],
                 profile_photo: r.data[0]['banner_photo'],
