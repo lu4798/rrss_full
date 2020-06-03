@@ -157,16 +157,16 @@ export default class ProfileCard extends Component {
         return (
             <Container style={{float: "left", borderColor: "#538c09"}}>
                 <Card className='card'>
+                    <CardMedia className='profile-media'
+                               image={this.state.banner_photo}/>
                     {this.state.editable === true
-                        ? <CardMedia className='profile-media fileContainer'
-                                     image={this.state.banner_photo}>
+                        ? <IconButton className="icon icon-image fileContainer" aria-label="follow">
                             <input type="file"
                                    id="image"
                                    accept="image/png, image/jpeg" onChange={this.handleBannerPhoto}/>
-                        </CardMedia>
-
-                        : <CardMedia className='profile-media'
-                                     image={this.state.banner_photo}/>}
+                            <InsertPhotoIcon/>
+                        </IconButton>
+                        : <div/>}
 
                     <CardContent>
                         <div className="row">
